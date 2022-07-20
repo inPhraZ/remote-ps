@@ -11,8 +11,8 @@
  */
 
 #include <iostream>
-#include <iterator>
 #include <exception>
+#include <cstdint>
 #include <cerrno>
 #include <boost/program_options.hpp>
 
@@ -26,8 +26,12 @@ int main(int argc, char *argv[])
 	try {
 		po::options_description description("[OPTIONS]");
 		description.add_options()
-			("ip,i", "specify IP address to bind")
-			("port,p", "specify PORT number to use")
+			("ip,i",
+			 po::value<std::string>()->default_value("0.0.0.0"),
+			 "specify IP address to bind")
+			("port,p",
+			 po::value<uint16_t>()->default_value(5000),
+			 "specify PORT number to use")
 			("help,h", "display this help and exit")
 			("version,v", "output version information and exit");
 	
