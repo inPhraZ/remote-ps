@@ -10,10 +10,44 @@
  * =====================================================================================
  */
 
+#include <iostream>
+#include <iterator>
+#include <exception>
+#include <boost/program_options.hpp>
+
 #include "remoteps_service.hpp"
 
-int main()
+namespace po = boost::program_options;
+
+int main(int argc, char *argv[])
 {
+	try {
+		po::options_description description("[OPTIONS]");
+		description.add_options()
+			("ip,i", "specify IP address to bind")
+			("port,p", "specify PORT number to use")
+			("help,h", "display this help and exit")
+			("version,v", "output version information and exit");
+	
+		po::variables_map vm;
+		po::store(po::parse_command_line(argc, argv, description), vm);
+		po::notify(vm);
+
+		if (vm.count("help")) {
+			std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
+			std::cout << description;
+			return 0;
+		}
+	}
+	catch (std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+		return 1;
+	}
+	catch (...) {
+		std::cerr << "Unknown exception" << std::endl;
+		return 1;
+	}
+
 	RemotePsService server;
 	server.RunServer("0.0.0.0:2048");
 
