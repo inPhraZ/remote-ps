@@ -14,15 +14,20 @@
 #include <exception>
 #include <cstdint>
 #include <cerrno>
+#include <boost/asio.hpp>
 #include <boost/program_options.hpp>
 
 #include "remoteps_service.hpp"
 #include "version.hpp"
 
 namespace po = boost::program_options;
+namespace baip = boost::asio::ip;
 
 int main(int argc, char *argv[])
 {
+	baip::tcp::endpoint pairAddr;
+	std::string 		addr;
+
 	try {
 		po::options_description description("[OPTIONS]");
 		description.add_options()
@@ -52,6 +57,15 @@ int main(int argc, char *argv[])
 			std::cout << "Written by " << REMOTEPS_AUTHOR << std::endl;
 			return 0;
 		}
+
+		if (vm.count("port")) {
+			if (vm["port"].as<uint16_t>() <= 0) {
+				std::cerr << "Invalid port number: " << vm["port"].as<uint16_t>() << std::endl;
+				return 2;
+			}
+		}
+		pairAddr.address(baip::address::from_string(vm["ip"].as<std::string>()));
+		pairAddr.port(vm["port"].as<uint16_t>());
 	}
 	catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -62,8 +76,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	addr = pairAddr.address().to_string() + ":" + std::to_string(pairAddr.port());
+
 	RemotePsService server;
-	server.RunServer("0.0.0.0:2048");
+	server.RunServer(addr);
 
 	return 0;
 }
