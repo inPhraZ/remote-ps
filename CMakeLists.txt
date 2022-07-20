@@ -93,6 +93,8 @@ else()
 endif()
 ################################################################################
 
+find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
+
 # Proto file
 get_filename_component(remoteps_proto "./remoteps.proto" ABSOLUTE)
 get_filename_component(remoteps_proto_path "${remoteps_proto}" PATH)
@@ -130,6 +132,8 @@ target_link_libraries(remoteps_grpc_proto
 add_executable(server server.cpp remoteps_service.cpp)
 target_link_libraries(server
 	remoteps_grpc_proto
+	Boost::program_options
 	${_REFLECTION}
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF})
+
