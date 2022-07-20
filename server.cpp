@@ -13,6 +13,7 @@
 #include <iostream>
 #include <iterator>
 #include <exception>
+#include <cerrno>
 #include <boost/program_options.hpp>
 
 #include "remoteps_service.hpp"
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
 		po::notify(vm);
 
 		if (vm.count("help")) {
-			std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
+			std::cout << "Usage: " << program_invocation_name << " [OPTIONS]" << std::endl;
 			std::cout << description;
 			return 0;
 		}
