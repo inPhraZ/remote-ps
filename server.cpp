@@ -17,6 +17,7 @@
 #include <boost/program_options.hpp>
 
 #include "remoteps_service.hpp"
+#include "version.hpp"
 
 namespace po = boost::program_options;
 
@@ -36,7 +37,15 @@ int main(int argc, char *argv[])
 
 		if (vm.count("help")) {
 			std::cout << "Usage: " << program_invocation_name << " [OPTIONS]" << std::endl;
+			std::cout << "Report information of the current "
+				"processes on a remote linux server\n" << std::endl;
 			std::cout << description;
+			return 0;
+		}
+
+		if (vm.count("version")) {
+			std::cout << REMOTEPS_NAME << " " << REMOTEPS_VERSION << std::endl;
+			std::cout << "Written by " << REMOTEPS_AUTHOR << std::endl;
 			return 0;
 		}
 	}
