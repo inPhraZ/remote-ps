@@ -129,8 +129,9 @@ target_link_libraries(remoteps_grpc_proto
   ${_PROTOBUF_LIBPROTOBUF})
 
 # Target server
-add_executable(server server.cpp remoteps_service.cpp)
-target_link_libraries(server
+set(server "remoteps_server")
+add_executable(${server} server.cpp remoteps_service.cpp)
+target_link_libraries(${server}
 	remoteps_grpc_proto
 	Boost::program_options
 	${_REFLECTION}
