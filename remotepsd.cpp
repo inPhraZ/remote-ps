@@ -22,11 +22,23 @@
 
 namespace po = boost::program_options;
 
+void parse_command_line(int argc, char *argv[], std::string& ip, uint16_t& port);
+
 int main(int argc, char *argv[])
 {
 	std::string ip;
 	uint16_t    port;
 
+	parse_command_line(argc, argv, ip, port);
+
+	remoteps::RemotePsService server(ip, port);
+	server.RunServer();
+
+	return 0;
+}
+
+void parse_command_line(int argc, char *argv[], std::string& ip, uint16_t& port)
+{
 	try {
 		po::options_description description("[OPTIONS]");
 		description.add_options()
@@ -48,19 +60,19 @@ int main(int argc, char *argv[])
 			std::cout << "Report information of the current "
 				"processes on a remote linux server\n" << std::endl;
 			std::cout << description;
-			return 0;
+			exit(EXIT_SUCCESS);
 		}
 
 		if (vm.count("version")) {
 			std::cout << REMOTEPS_NAME << " " << REMOTEPS_VERSION << std::endl;
 			std::cout << "Written by " << REMOTEPS_AUTHOR << std::endl;
-			return 0;
+			exit(EXIT_SUCCESS);
 		}
 
 		if (vm.count("port")) {
 			if (vm["port"].as<uint16_t>() <= 0) {
 				std::cerr << "Invalid port number: " << vm["port"].as<uint16_t>() << std::endl;
-				return 2;
+				exit(EXIT_FAILURE);
 			}
 		}
 		ip = vm["ip"].as<std::string>();
@@ -68,15 +80,10 @@ int main(int argc, char *argv[])
 	}
 	catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 	catch (...) {
 		std::cerr << "Unknown exception" << std::endl;
-		return 1;
+		exit(EXIT_FAILURE);
 	}
-
-	remoteps::RemotePsService server(ip, port);
-	server.RunServer();
-
-	return 0;
 }
