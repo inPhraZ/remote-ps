@@ -21,12 +21,11 @@
 #include "version.hpp"
 
 namespace po = boost::program_options;
-namespace baip = boost::asio::ip;
 
 int main(int argc, char *argv[])
 {
-	baip::tcp::endpoint pairAddr;
-	std::string 		addr;
+	std::string ip;
+	uint16_t    port;
 
 	try {
 		po::options_description description("[OPTIONS]");
@@ -64,8 +63,8 @@ int main(int argc, char *argv[])
 				return 2;
 			}
 		}
-		pairAddr.address(baip::address::from_string(vm["ip"].as<std::string>()));
-		pairAddr.port(vm["port"].as<uint16_t>());
+		ip = vm["ip"].as<std::string>();
+		port = vm["port"].as<uint16_t>();
 	}
 	catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -76,10 +75,8 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	addr = pairAddr.address().to_string() + ":" + std::to_string(pairAddr.port());
-
-	RemotePsService server;
-	server.RunServer(addr);
+	remoteps::RemotePsService server(ip, port);
+	server.RunServer();
 
 	return 0;
 }
