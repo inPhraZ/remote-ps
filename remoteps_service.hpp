@@ -22,6 +22,7 @@ namespace remoteps {
 	class RemotePsService final : public RemotePs::Service
 	{
 		public:
+			RemotePsService();
 			RemotePsService(const std::string& ip, const uint16_t port);
 			void RunServer();
 			void setIP(const std::string& ip);

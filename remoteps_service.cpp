@@ -25,6 +25,13 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using remoteps::RemotePsService;
 
+RemotePsService::RemotePsService()
+	: RemotePs::Service()
+{
+	this->ip = std::string("0.0.0.0");
+	this->port = 5000;
+}
+
 RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
 	: RemotePs::Service()
 {
