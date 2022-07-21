@@ -1,9 +1,9 @@
 /*
  * =====================================================================================
  *
- *       Filename:  server.cpp
+ *       Filename:  remotepsd.cpp
  *
- *    Description:  server application of remote-ps
+ *    Description:  remoteps daemon (Server application of remote-ps)
  *
  *         Author:  Farzin Monsef 
  *
