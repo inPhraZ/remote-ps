@@ -17,15 +17,16 @@
 #include <grpcpp/grpcpp.h>
 
 #include "remoteps.grpc.pb.h"
-
-using grpc::Channel;
+#include "remoteps_address.hpp"
 
 namespace remoteps {
-	class RemotePsClient {
+	class RemotePsClient
+	{
 		public:
-			RemotePsClient(std::shared_ptr<Channel> channel)
-				: stub_(RemotePs::NewStub(channel)) {}
+			RemotePsClient(const std::string& ip, const uint16_t port);
 		private:
+			Address peer;
+			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
 	};
 }
