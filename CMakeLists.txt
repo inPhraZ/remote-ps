@@ -128,10 +128,9 @@ target_link_libraries(remoteps_grpc_proto
   ${_GRPC_GRPCPP}
   ${_PROTOBUF_LIBPROTOBUF})
 
-# Target server
-set(server "remoteps_server")
-add_executable(${server} server.cpp remoteps_service.cpp)
-target_link_libraries(${server}
+# Target remoteps server daemon
+add_executable(remotepsd remotepsd.cpp remoteps_service.cpp)
+target_link_libraries(remotepsd
 	remoteps_grpc_proto
 	Boost::program_options
 	${_REFLECTION}
