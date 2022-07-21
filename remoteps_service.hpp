@@ -24,6 +24,10 @@ namespace remoteps {
 		public:
 			RemotePsService(const std::string& ip, const uint16_t port);
 			void RunServer();
+			void setIP(const std::string& ip);
+			void setPort(const uint16_t port);
+			std::string getIP();
+			uint16_t    getPort();
 		private:
 			std::string IpPort();
 			std::string ip;

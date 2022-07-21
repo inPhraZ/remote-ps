@@ -57,4 +57,22 @@ std::string RemotePsService::IpPort()
 	return  (this->ip + ":" + std::to_string(this->port));
 }
 
+void RemotePsService::setIP(const std::string& ip)
+{
+	this->ip = ip;
+}
 
+void RemotePsService::setPort(const uint16_t port)
+{
+	this->port = port;
+}
+
+std::string RemotePsService::getIP()
+{
+	return this->ip;
+}
+
+uint16_t RemotePsService::getPort()
+{
+	return this->port;
+}
