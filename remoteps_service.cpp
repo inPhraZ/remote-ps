@@ -23,14 +23,22 @@
 
 using grpc::Server;
 using grpc::ServerBuilder;
+using remoteps::RemotePsService;
 
-void RemotePsService::RunServer(const std::string& address)
+RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
+	: RemotePs::Service()
+{
+	this->ip = ip;
+	this->port = port;
+}
+
+void RemotePsService::RunServer()
 {
 	grpc::EnableDefaultHealthCheckService(true);
 	grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
 	ServerBuilder builder;
-	builder.AddListeningPort(address, grpc::InsecureServerCredentials());
+	builder.AddListeningPort(this->IpPort(), grpc::InsecureServerCredentials());
 	builder.RegisterService(this);
 
 	std::unique_ptr<Server> server(builder.BuildAndStart());
@@ -39,7 +47,14 @@ void RemotePsService::RunServer(const std::string& address)
 		return;
 	}
 
-	std::cout << "Server is listening on " << address << std::endl;
+	std::cout << "Server is listening on " << this->IpPort() << std::endl;
 
 	server->Wait();
 }
+
+std::string RemotePsService::IpPort()
+{
+	return  (this->ip + ":" + std::to_string(this->port));
+}
+
+
