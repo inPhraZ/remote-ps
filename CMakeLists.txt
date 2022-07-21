@@ -137,3 +137,12 @@ target_link_libraries(remotepsd
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF})
 
+# Target remoteps client
+add_executable(remoteps remoteps.cpp remoteps_client.cpp)
+target_link_libraries(remoteps
+	remoteps_grpc_proto
+	Boost::program_options
+	${_REFLECTION}
+	${_GRPC_GRPCPP}
+	${_PROTOBUF_LIBPROTOBUF})
+
