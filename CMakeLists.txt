@@ -93,7 +93,7 @@ else()
 endif()
 ################################################################################
 
-find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
+find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
 
 # Proto file
 get_filename_component(remoteps_proto "./remoteps.proto" ABSOLUTE)
