@@ -18,12 +18,17 @@
 
 #include "remoteps.grpc.pb.h"
 
-using remoteps::RemotePs;
-
-class RemotePsService final : public RemotePs::Service
-{
-	public:
-		void RunServer(const std::string& address);
-};
+namespace remoteps {
+	class RemotePsService final : public RemotePs::Service
+	{
+		public:
+			RemotePsService(const std::string& ip, const uint16_t port);
+			void RunServer();
+		private:
+			std::string IpPort();
+			std::string ip;
+			uint16_t    port;
+	};
+}
 
 #endif 		/*  __REMOTEPS_SERVICE_HPP_		*/
