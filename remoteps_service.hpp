@@ -17,6 +17,7 @@
 #include <string>
 
 #include "remoteps.grpc.pb.h"
+#include "remoteps_address.hpp"
 
 namespace remoteps {
 	class RemotePsService final : public RemotePs::Service
@@ -25,14 +26,7 @@ namespace remoteps {
 			RemotePsService();
 			RemotePsService(const std::string& ip, const uint16_t port);
 			void RunServer();
-			void setIP(const std::string& ip);
-			void setPort(const uint16_t port);
-			std::string getIP();
-			uint16_t    getPort();
-		private:
-			std::string IpPort();
-			std::string ip;
-			uint16_t    port;
+			Address addr;
 	};
 }
 

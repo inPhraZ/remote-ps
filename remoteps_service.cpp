@@ -28,24 +28,29 @@ using remoteps::RemotePsService;
 RemotePsService::RemotePsService()
 	: RemotePs::Service()
 {
-	this->ip = std::string("0.0.0.0");
-	this->port = 5000;
+	addr.setIP("0.0.0.0");
+	addr.setPort(5000);
 }
 
 RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
 	: RemotePs::Service()
 {
-	this->ip = ip;
-	this->port = port;
+	addr.setIP(ip);
+	addr.setPort(port);
 }
 
 void RemotePsService::RunServer()
 {
+	if (addr.is_valid() == false) {
+		std::cerr << "Invalid address to bind: " << addr.getIP() << std::endl;
+		return;
+	}
+
 	grpc::EnableDefaultHealthCheckService(true);
 	grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
 	ServerBuilder builder;
-	builder.AddListeningPort(this->IpPort(), grpc::InsecureServerCredentials());
+	builder.AddListeningPort(addr.IpPort(), grpc::InsecureServerCredentials());
 	builder.RegisterService(this);
 
 	std::unique_ptr<Server> server(builder.BuildAndStart());
@@ -54,32 +59,7 @@ void RemotePsService::RunServer()
 		return;
 	}
 
-	std::cout << "Server is listening on " << this->IpPort() << std::endl;
+	std::cout << "Server is listening on " << addr.IpPort() << std::endl;
 
 	server->Wait();
-}
-
-std::string RemotePsService::IpPort()
-{
-	return  (this->ip + ":" + std::to_string(this->port));
-}
-
-void RemotePsService::setIP(const std::string& ip)
-{
-	this->ip = ip;
-}
-
-void RemotePsService::setPort(const uint16_t port)
-{
-	this->port = port;
-}
-
-std::string RemotePsService::getIP()
-{
-	return this->ip;
-}
-
-uint16_t RemotePsService::getPort()
-{
-	return this->port;
 }
