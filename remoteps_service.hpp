@@ -15,6 +15,7 @@
 #define 		__REMOTEPS_SERVICE_HPP_		1
 
 #include <string>
+#include <cstdint>
 
 #include "remoteps.grpc.pb.h"
 #include "remoteps_address.hpp"

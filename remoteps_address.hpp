@@ -14,6 +14,7 @@
 #define 		__REMOETPS_ADDRESS_HPP_		1
 
 #include <string>
+#include <cstdint>
 #include <boost/asio.hpp>
 
 namespace remoteps {

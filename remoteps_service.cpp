@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <cstdint>
 
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>

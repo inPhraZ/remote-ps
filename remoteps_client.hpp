@@ -14,6 +14,7 @@
 #define 		__REMOTEPS_CLIENT_HPP_	1
 
 #include <memory>
+#include <cstdint>
 #include <grpcpp/grpcpp.h>
 
 #include "remoteps.grpc.pb.h"

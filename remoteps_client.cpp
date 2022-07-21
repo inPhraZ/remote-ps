@@ -12,6 +12,7 @@
 
 #include <string>
 #include <memory>
+#include <cstdint>
 
 #include "remoteps_client.hpp"
 
