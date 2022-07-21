@@ -14,6 +14,7 @@
 #define 		__REMOETPS_ADDRESS_HPP_		1
 
 #include <string>
+#include <boost/asio.hpp>
 
 namespace remoteps {
 	class Address
@@ -47,6 +48,17 @@ namespace remoteps {
 			uint16_t    getPort()
 			{
 				return this->port;
+			}
+
+			bool is_valid()
+			{
+				try {
+					bool valid = boost::asio::ip::make_address(ip.c_str()).is_v4();
+					return valid;
+				}
+				catch (...) {
+					return false;
+				}
 			}
 
 		private:
