@@ -46,7 +46,7 @@ uint16_t remoteps::Address::getPort()
 	return this->port;
 }
 
-bool remoteps::Address::isValid()
+bool remoteps::Address::isV4()
 {
 	try {
 		bool valid = boost::asio::ip::make_address(ip.c_str()).is_v4();
@@ -55,4 +55,22 @@ bool remoteps::Address::isValid()
 	catch (...) {
 		return false;
 	}
+}
+
+bool remoteps::Address::isV6()
+{
+	try {
+		bool valid = boost::asio::ip::make_address(ip.c_str()).is_v6();
+		return valid;
+	}
+	catch (...) {
+		return false;
+	}
+}
+
+bool remoteps::Address::isValid()
+{
+	if (isV4() || isV6())
+		return true;
+	return false;
 }
