@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 	std::string ip;
 	uint16_t    port;
 
+	parse_command_line(argc, argv, ip, port);
+
 	remoteps::RemotePsClient client(ip, port);
 
 	return 0;
