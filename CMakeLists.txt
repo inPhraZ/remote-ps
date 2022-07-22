@@ -129,7 +129,10 @@ target_link_libraries(remoteps_grpc_proto
   ${_PROTOBUF_LIBPROTOBUF})
 
 # Target remoteps server daemon
-add_executable(remotepsd remotepsd.cpp remoteps_service.cpp)
+add_executable(remotepsd
+	remotepsd.cpp
+	remoteps_service.cpp
+	remoteps_address.cpp)
 target_link_libraries(remotepsd
 	remoteps_grpc_proto
 	Boost::program_options
@@ -138,7 +141,10 @@ target_link_libraries(remotepsd
 	${_PROTOBUF_LIBPROTOBUF})
 
 # Target remoteps client
-add_executable(remoteps remoteps.cpp remoteps_client.cpp)
+add_executable(remoteps
+	remoteps.cpp
+	remoteps_client.cpp
+	remoteps_address.cpp)
 target_link_libraries(remoteps
 	remoteps_grpc_proto
 	Boost::program_options
