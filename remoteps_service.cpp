@@ -42,7 +42,7 @@ RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
 
 void RemotePsService::RunServer()
 {
-	if (addr.is_valid() == false) {
+	if (addr.isValid() == false) {
 		std::cerr << "Invalid address to bind: " << addr.getIP() << std::endl;
 		return;
 	}
