@@ -3,7 +3,7 @@
  *
  *       Filename:  remoteps_address.hpp
  *
- *    Description:  network address class
+ *    Description:  Definition of network address class
  *
  *         Author:  Farzin Monsef 
  *
@@ -15,52 +15,19 @@
 
 #include <string>
 #include <cstdint>
-#include <boost/asio.hpp>
 
 namespace remoteps {
 	class Address
 	{
 		public:
-			Address() {}
-
-			Address(const std::string& ip, const uint16_t port)
-				: ip(ip), port(port) {}
-
-			std::string IpPort()
-			{
-				return (this->ip + ":" + std::to_string(this->port));
-			}
-
-			void setIP(const std::string& ip)
-			{
-				this->ip = ip;
-			}
-
-			void setPort(const uint16_t port)
-			{
-				this->port = port;
-			}
-
-			std::string getIP()
-			{
-				return this->ip;
-			}
-
-			uint16_t    getPort()
-			{
-				return this->port;
-			}
-
-			bool is_valid()
-			{
-				try {
-					bool valid = boost::asio::ip::make_address(ip.c_str()).is_v4();
-					return valid;
-				}
-				catch (...) {
-					return false;
-				}
-			}
+			Address();
+			Address(const std::string& ip, const uint16_t port);
+			std::string IpPort();
+			void setIP(const std::string& ip);
+			void setPort(const uint16_t port);
+			std::string getIP();
+			uint16_t getPort();
+			bool isValid();
 
 		private:
 			std::string ip;
