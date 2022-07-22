@@ -20,7 +20,6 @@ remoteps::RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t p
 {
 	peer.setIP(ip);
 	peer.setPort(port);
-	auto channel_creds = grpc::SslCredentials(grpc::SslCredentialsOptions());
-	channel = grpc::CreateChannel(peer.IpPort(), channel_creds);
+	channel = grpc::CreateChannel(peer.IpPort(), grpc::InsecureChannelCredentials());
 	stub_ = RemotePs::NewStub(channel);
 }
