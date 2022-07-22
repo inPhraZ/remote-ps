@@ -27,6 +27,8 @@ namespace remoteps {
 			void setPort(const uint16_t port);
 			std::string getIP();
 			uint16_t getPort();
+			bool isV4();
+			bool isV6();
 			bool isValid();
 
 		private:
