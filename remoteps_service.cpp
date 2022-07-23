@@ -24,7 +24,10 @@
 
 using grpc::Server;
 using grpc::ServerBuilder;
+using grpc::Status;
+using grpc::ServerContext;
 using remoteps::RemotePsService;
+using remoteps::Message;
 
 RemotePsService::RemotePsService()
 	: RemotePs::Service()
@@ -63,4 +66,10 @@ void RemotePsService::RunServer()
 	std::cout << "Server is listening on " << addr.IpPort() << std::endl;
 
 	server->Wait();
+}
+
+Status RemotePsService::ConnectionTest(ServerContext* context, const Message* request,
+		Message* reply)
+{
+	return Status::OK;
 }

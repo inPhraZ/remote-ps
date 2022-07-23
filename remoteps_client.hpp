@@ -25,6 +25,7 @@ namespace remoteps {
 	{
 		public:
 			RemotePsClient(const std::string& ip, const uint16_t port);
+			int ConnectionTest();
 		private:
 			Address peer;
 			std::shared_ptr<grpc::Channel> channel;

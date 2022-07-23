@@ -20,6 +20,10 @@
 #include "remoteps.grpc.pb.h"
 #include "remoteps_address.hpp"
 
+using grpc::Status;
+using grpc::ServerContext;
+using remoteps::Message;
+
 namespace remoteps {
 	class RemotePsService final : public RemotePs::Service
 	{
@@ -27,6 +31,8 @@ namespace remoteps {
 			RemotePsService();
 			RemotePsService(const std::string& ip, const uint16_t port);
 			void RunServer();
+			Status ConnectionTest(ServerContext* context, const Message *request,
+					Message *reply);
 			Address addr;
 	};
 }
