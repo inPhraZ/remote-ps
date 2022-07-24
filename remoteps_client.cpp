@@ -19,8 +19,10 @@
 
 using grpc::Status;
 using grpc::ClientContext;
+using remoteps::RemotePsClient;
+using remoteps::Message;
 
-remoteps::RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
+RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 {
 	peer.setIP(ip);
 	peer.setPort(port);
@@ -28,10 +30,10 @@ remoteps::RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t p
 	stub_ = RemotePs::NewStub(channel);
 }
 
-int remoteps::RemotePsClient::ConnectionTest()
+int RemotePsClient::ConnectionTest()
 {
-	remoteps::Message request;
-	remoteps::Message reply;
+	Message request;
+	Message reply;
 
 	ClientContext context;
 	Status status = stub_->ConnectionTest(&context, request, &reply);
