@@ -35,8 +35,13 @@ RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 void RemotePsClient::GenerateCommands()
 {
 	cmdMap.clear();
+	cmdDesc.clear();
+
 	cmdMap["help"] = HELP;
+	cmdDesc[HELP] = "List of available commands and description";
+
 	cmdMap["exit"] = EXIT;
+	cmdDesc[EXIT] = "Exit from program";
 }
 
 int RemotePsClient::ConnectionTest()
@@ -75,15 +80,32 @@ void RemotePsClient::CommandLoop()
 
 int RemotePsClient::ExecuteCommand(const std::string& cmd)
 {
-	switch (cmdMap[cmd]) {
-		case HELP:
-			break;
-		case EXIT:
-			return 1;
-			break;
-		default:
-			std::cout << "Invalid command: " << cmd << std::endl;
-			break;
+	try {
+		switch (cmdMap.at(cmd)) {
+			case HELP:
+				CommandHelp();
+				break;
+			case EXIT:
+				return 1;
+				break;
+			default:
+				break;
+		}
 	}
+	catch (std::out_of_range) {
+		std::cout << cmd << ": command not found" << std::endl;
+	}
+
 	return 0;
+}
+
+void RemotePsClient::CommandHelp()
+{
+	std::cout << "Available commands:" << std::endl;
+	for (const auto &[cmd, i] : cmdMap) {
+		try {
+			std::cout << cmd << "\t" << cmdDesc.at(i) << std::endl;
+		}
+		catch (...) {}
+	}
 }
