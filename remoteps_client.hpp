@@ -14,6 +14,7 @@
 #define 		__REMOTEPS_CLIENT_HPP_	1
 
 #include <memory>
+#include <string>
 #include <cstdint>
 #include <grpcpp/grpcpp.h>
 
@@ -26,10 +27,12 @@ namespace remoteps {
 		public:
 			RemotePsClient(const std::string& ip, const uint16_t port);
 			int ConnectionTest();
+			void CommandLoop();
 		private:
 			Address peer;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
+			int ExecuteCommand(const std::string& cmd);
 	};
 }
 
