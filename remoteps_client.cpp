@@ -17,6 +17,7 @@
 #include <cstdint>
 
 #include "remoteps_client.hpp"
+#include "version.hpp"
 
 using grpc::Status;
 using grpc::ClientContext;
@@ -66,7 +67,7 @@ void RemotePsClient::CommandLoop()
 
 	while (true) {
 		std::string cmd;
-		std::cout << "Enter command: ";
+		std::cout << REMOTEPS_NAME << "> ";
 		std::getline(std::cin, cmd);
 		if (std::cin.eof()) {
 			std::cout << std::endl;
@@ -101,11 +102,12 @@ int RemotePsClient::ExecuteCommand(const std::string& cmd)
 
 void RemotePsClient::CommandHelp()
 {
-	std::cout << "Available commands:" << std::endl;
+	std::cout << "\nAvailable commands:\n";
 	for (const auto &[cmd, i] : cmdMap) {
 		try {
 			std::cout << cmd << "\t" << cmdDesc.at(i) << std::endl;
 		}
 		catch (...) {}
 	}
+	std::cout << std::endl;
 }
