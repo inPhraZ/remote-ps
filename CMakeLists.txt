@@ -4,8 +4,8 @@ project(RemotePs C CXX)
 message(STATUS "remote-ps")
 
 # using c++14
-set (CMAKE_CXX_STANDARD 14)
-message(STATUS "Using c++14")
+set (CMAKE_CXX_STANDARD 17)
+message(STATUS "Using c++17")
 
 ################################################################################
 # common cmake for gRPC
