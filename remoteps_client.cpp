@@ -42,3 +42,14 @@ int RemotePsClient::ConnectionTest()
 		return 0;
 	return 1;
 }
+
+void RemotePsClient::CommandLoop()
+{
+	while (true) {
+		std::string cmd;
+		std::cout << "Enter command: ";
+		std::getline(std::cin, cmd);
+		if (std::cin.eof())
+			return;
+	}
+}
