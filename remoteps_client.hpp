@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <string>
+#include <map>
 #include <cstdint>
 #include <grpcpp/grpcpp.h>
 
@@ -22,6 +23,12 @@
 #include "remoteps_address.hpp"
 
 namespace remoteps {
+
+	enum CommandIndex {
+		HELP = 1,
+		EXIT
+	};
+
 	class RemotePsClient
 	{
 		public:
@@ -29,8 +36,10 @@ namespace remoteps {
 			void CommandLoop();
 		private:
 			Address peer;
+			std::map<std::string, int> cmdMap;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
+			void GenerateCommands();
 			int ConnectionTest();
 			int ExecuteCommand(const std::string& cmd);
 	};
