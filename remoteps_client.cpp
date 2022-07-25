@@ -11,8 +11,9 @@
  */
 
 #include <iostream>
-#include <string>
 #include <memory>
+#include <string>
+#include <map>
 #include <cstdint>
 
 #include "remoteps_client.hpp"
@@ -28,6 +29,14 @@ RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 	peer.setPort(port);
 	channel = grpc::CreateChannel(peer.IpPort(), grpc::InsecureChannelCredentials());
 	stub_ = RemotePs::NewStub(channel);
+	GenerateCommands();
+}
+
+void RemotePsClient::GenerateCommands()
+{
+	cmdMap.clear();
+	cmdMap["help"] = HELP;
+	cmdMap["exit"] = EXIT;
 }
 
 int RemotePsClient::ConnectionTest()
@@ -54,7 +63,27 @@ void RemotePsClient::CommandLoop()
 		std::string cmd;
 		std::cout << "Enter command: ";
 		std::getline(std::cin, cmd);
-		if (std::cin.eof())
+		if (std::cin.eof()) {
+			std::cout << std::endl;
+			return;
+		}
+
+		if (ExecuteCommand(cmd))
 			return;
 	}
+}
+
+int RemotePsClient::ExecuteCommand(const std::string& cmd)
+{
+	switch (cmdMap[cmd]) {
+		case HELP:
+			break;
+		case EXIT:
+			return 1;
+			break;
+		default:
+			std::cout << "Invalid command: " << cmd << std::endl;
+			break;
+	}
+	return 0;
 }
