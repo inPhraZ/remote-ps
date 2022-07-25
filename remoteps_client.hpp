@@ -26,12 +26,12 @@ namespace remoteps {
 	{
 		public:
 			RemotePsClient(const std::string& ip, const uint16_t port);
-			int ConnectionTest();
 			void CommandLoop();
 		private:
 			Address peer;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
+			int ConnectionTest();
 			int ExecuteCommand(const std::string& cmd);
 	};
 }

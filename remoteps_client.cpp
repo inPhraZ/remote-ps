@@ -45,6 +45,11 @@ int RemotePsClient::ConnectionTest()
 
 void RemotePsClient::CommandLoop()
 {
+	if (ConnectionTest()) {
+		std::cerr << "Connection failed to " << peer.IpPort() << std::endl;
+		return;
+	}
+
 	while (true) {
 		std::string cmd;
 		std::cout << "Enter command: ";

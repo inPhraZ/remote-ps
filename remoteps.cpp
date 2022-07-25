@@ -32,10 +32,7 @@ int main(int argc, char *argv[])
 	parse_command_line(argc, argv, ip, port);
 
 	remoteps::RemotePsClient client(ip, port);
-	if (client.ConnectionTest()) {
-		std::cerr << "Connation failed to " << ip << ":" << port << std::endl;
-		return 1;
-	}
+	client.CommandLoop();
 
 	return 0;
 }
