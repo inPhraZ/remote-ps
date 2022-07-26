@@ -79,7 +79,8 @@ Status RemotePsService::ListOfProcs(ServerContext* context, const Process* proce
 		ServerWriter<Process>* writer)
 {
 	procinfo.ReadProcs();
-	for (const auto p : procinfo.procs)
+	const std::vector<Process> procs = procinfo.GetProcs();
+	for (const auto p : procs)
 		writer->Write(p);
 	return Status::OK;
 }
