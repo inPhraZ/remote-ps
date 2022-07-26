@@ -26,6 +26,7 @@ namespace remoteps {
 
 	enum CommandIndex {
 		HELP = 1,
+		LIST,
 		EXIT
 	};
 
@@ -46,6 +47,7 @@ namespace remoteps {
 
 			/*  Commands */
 			void CommandHelp();
+			void CommandList();
 	};
 }
 

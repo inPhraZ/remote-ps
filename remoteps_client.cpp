@@ -21,6 +21,7 @@
 
 using grpc::Status;
 using grpc::ClientContext;
+using grpc::ClientReader;
 using remoteps::RemotePsClient;
 using remoteps::Message;
 
@@ -40,6 +41,9 @@ void RemotePsClient::GenerateCommands()
 
 	cmdMap["help"] = HELP;
 	cmdDesc[HELP] = "List of available commands and description";
+
+	cmdMap["list"] = LIST;
+	cmdDesc[LIST] = "List of all current running processes";
 
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
@@ -86,6 +90,9 @@ int RemotePsClient::ExecuteCommand(const std::string& cmd)
 			case HELP:
 				CommandHelp();
 				break;
+			case LIST:
+				CommandList();
+				break;
 			case EXIT:
 				return 1;
 				break;
@@ -110,4 +117,21 @@ void RemotePsClient::CommandHelp()
 		catch (...) {}
 	}
 	std::cout << std::endl;
+}
+
+void RemotePsClient::CommandList()
+{
+	Process process;
+	Process tmp;
+	ClientContext context;
+
+	std::unique_ptr<ClientReader<Process>> reader(
+			stub_->ListOfProcs(&context, process));
+
+	std::cout << "Name\tPID\tPPID\n";
+	while (reader->Read(&tmp)) {
+		std::cout << tmp.name() << "\t";
+		std::cout << tmp.pid() << "\t";
+		std::cout << tmp.ppid() << std::endl;
+	}
 }
