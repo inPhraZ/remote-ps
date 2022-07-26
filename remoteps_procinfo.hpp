@@ -21,7 +21,8 @@
 namespace remoteps {
 	class ProcInfo
 	{
-		private:
+		public:
+			void ReadProcs();
 			std::vector<Process> procs;
 	};
 }
