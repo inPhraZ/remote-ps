@@ -18,11 +18,11 @@
 #include <cstdint>
 
 #include "remoteps.grpc.pb.h"
+#include "remoteps_procinfo.hpp"
 #include "remoteps_address.hpp"
 
 using grpc::Status;
 using grpc::ServerContext;
-using remoteps::Message;
 
 namespace remoteps {
 	class RemotePsService final : public RemotePs::Service
@@ -34,6 +34,8 @@ namespace remoteps {
 			Status ConnectionTest(ServerContext* context, const Message *request,
 					Message *reply);
 			Address addr;
+		private:
+			ProcInfo procinfo;
 	};
 }
 
