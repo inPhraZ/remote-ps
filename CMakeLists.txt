@@ -4,8 +4,10 @@ project(RemotePs C CXX)
 message(STATUS "remote-ps")
 
 # using c++14
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 message(STATUS "Using c++17")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lprocps")
 
 ################################################################################
 # common cmake for gRPC
@@ -132,7 +134,8 @@ target_link_libraries(remoteps_grpc_proto
 add_executable(remotepsd
 	remotepsd.cpp
 	remoteps_service.cpp
-	remoteps_address.cpp)
+	remoteps_address.cpp
+	remoteps_procinfo.cpp)
 target_link_libraries(remotepsd
 	remoteps_grpc_proto
 	Boost::program_options
