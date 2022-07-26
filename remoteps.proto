@@ -16,6 +16,7 @@ message Message {
 // general information message of a process
 message Process {
 	string 	name = 1;
-	uint32 	pid  = 2;
-	string 	exe  = 3;
+	string 	exe  = 2;
+	uint32 	pid  = 3;
+	uint32 	ppid  = 4;
 }
