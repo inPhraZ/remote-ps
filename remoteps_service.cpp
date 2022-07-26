@@ -28,6 +28,7 @@ using grpc::Status;
 using grpc::ServerContext;
 using remoteps::RemotePsService;
 using remoteps::Message;
+using remoteps::Process;
 
 RemotePsService::RemotePsService()
 	: RemotePs::Service()
@@ -71,5 +72,14 @@ void RemotePsService::RunServer()
 Status RemotePsService::ConnectionTest(ServerContext* context, const Message* request,
 		Message* reply)
 {
+	return Status::OK;
+}
+
+Status RemotePsService::ListOfProcs(ServerContext* context, const Process* process,
+		ServerWriter<Process>* writer)
+{
+	procinfo.ReadProcs();
+	for (const auto p : procinfo.procs)
+		writer->Write(p);
 	return Status::OK;
 }

@@ -23,6 +23,7 @@
 
 using grpc::Status;
 using grpc::ServerContext;
+using grpc::ServerWriter;
 
 namespace remoteps {
 	class RemotePsService final : public RemotePs::Service
@@ -36,6 +37,9 @@ namespace remoteps {
 			Address addr;
 		private:
 			ProcInfo procinfo;
+
+			Status ListOfProcs(ServerContext* context, const Process* process,
+					ServerWriter<Process>* writer);
 	};
 }
 
