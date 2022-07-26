@@ -36,3 +36,8 @@ void ProcInfo::ReadProcs()
 		procs.push_back(p);
 	}
 }
+
+const std::vector<Process>& ProcInfo::GetProcs() const
+{
+	return procs;
+}

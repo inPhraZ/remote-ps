@@ -23,6 +23,9 @@ namespace remoteps {
 	{
 		public:
 			void ReadProcs();
+			const std::vector<Process>& GetProcs() const;
+
+		protected:
 			std::vector<Process> procs;
 	};
 }
