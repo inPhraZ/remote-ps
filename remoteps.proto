@@ -6,6 +6,7 @@ package remoteps;
 // RemotePs service definition.
 service RemotePs {
 	rpc ConnectionTest (Message) returns (Message) {}
+	rpc ListOfProcs (Process) returns (stream Process) {}
 }
 
 
