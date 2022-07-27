@@ -30,7 +30,7 @@ void ProcInfo::ReadProcs()
 
 	Process p;
 	while(readproc(proc, &proc_info) != NULL) {
-		p.set_name(proc_info.cmd);
+		p.set_cmd(proc_info.cmd);
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
 		procs.push_back(p);
