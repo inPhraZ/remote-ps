@@ -5,7 +5,11 @@ package remoteps;
 
 // RemotePs service definition.
 service RemotePs {
+
+	// test the connection between client and server
 	rpc ConnectionTest (Message) returns (Message) {}
+
+	// extract the list of all current running procs on server machine
 	rpc ListOfProcs (Process) returns (stream Process) {}
 }
 
@@ -16,8 +20,7 @@ message Message {
 
 // general information message of a process
 message Process {
-	string 	name = 1;
-	string 	exe  = 2;
-	uint32 	pid  = 3;
-	uint32 	ppid  = 4;
+	string  cmd = 1;				// basename of executable file in vall to exec 
+	uint32  pid = 2;				// task id, the POSIX thread ID
+	uint32  ppid = 3;				// pid of parent process
 }
