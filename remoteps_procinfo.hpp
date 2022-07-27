@@ -26,6 +26,7 @@ namespace remoteps {
 			const std::vector<Process>& GetProcs() const;
 
 		protected:
+			void ExtractCmdline(Process& proc, const std::string& cmdline);
 			std::vector<Process> procs;
 	};
 }

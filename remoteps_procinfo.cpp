@@ -11,6 +11,7 @@
  */
 
 #include <vector>
+#include <sstream>
 #include <cstdlib>
 #include <proc/readproc.h>
 
@@ -23,16 +24,22 @@ void ProcInfo::ReadProcs()
 {
 	procs.clear();
 
-	PROCTAB* proc = openproc(PROC_FILLMEM | PROC_FILLSTAT | PROC_FILLSTATUS);
+	int flags = PROC_FILLMEM | PROC_FILLSTAT |
+		PROC_FILLSTATUS | PROC_FILLCOM |
+		PROC_FILLARG | PROC_EDITCMDLCVT;
+
+	PROCTAB* proc = openproc(flags);
 
 	proc_t proc_info;
 	memset(&proc_info, 0, sizeof(proc_t));
 
 	Process p;
 	while(readproc(proc, &proc_info) != NULL) {
+		p.Clear();
 		p.set_cmd(proc_info.cmd);
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
+		ExtractCmdline(p, std::string(*proc_info.cmdline));
 		procs.push_back(p);
 	}
 }
@@ -40,4 +47,14 @@ void ProcInfo::ReadProcs()
 const std::vector<Process>& ProcInfo::GetProcs() const
 {
 	return procs;
+}
+
+void ProcInfo::ExtractCmdline(Process& proc, const std::string& cmdline)
+{
+	std::stringstream ss(cmdline);
+	std::string tmp;
+
+	proc.clear_cmdline();
+	while (ss >> tmp)
+		proc.add_cmdline(tmp);
 }
