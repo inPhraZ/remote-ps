@@ -26,7 +26,8 @@ void ProcInfo::ReadProcs()
 
 	int flags = PROC_FILLMEM | PROC_FILLSTAT |
 		PROC_FILLSTATUS | PROC_FILLCOM |
-		PROC_FILLARG | PROC_EDITCMDLCVT;
+		PROC_FILLARG | PROC_EDITCMDLCVT |
+		PROC_FILLENV | PROC_EDITENVRCVT;
 
 	PROCTAB* proc = openproc(flags);
 
@@ -40,6 +41,7 @@ void ProcInfo::ReadProcs()
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
 		ExtractCmdline(p, std::string(*proc_info.cmdline));
+		ExtractEnviron(p, std::string(*proc_info.environ));
 		procs.push_back(p);
 	}
 }
@@ -57,4 +59,14 @@ void ProcInfo::ExtractCmdline(Process& proc, const std::string& cmdline)
 	proc.clear_cmdline();
 	while (ss >> tmp)
 		proc.add_cmdline(tmp);
+}
+
+void ProcInfo::ExtractEnviron(Process& proc, const std::string& environ)
+{
+	std::stringstream ss(environ);
+	std::string tmp;
+
+	proc.clear_environ();
+	while(ss >> tmp)
+		proc.add_environ(tmp);
 }

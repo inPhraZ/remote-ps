@@ -27,6 +27,7 @@ namespace remoteps {
 
 		protected:
 			void ExtractCmdline(Process& proc, const std::string& cmdline);
+			void ExtractEnviron(Process& proc, const std::string& environ);
 			std::vector<Process> procs;
 	};
 }
