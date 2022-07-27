@@ -23,5 +23,5 @@ message Process {
 	string  cmd = 1;		// basename of executable file in vall to exec 
 	uint32  pid = 2;		// task id, the POSIX thread ID
 	uint32  ppid = 3;		// pid of parent process
-	repeated string cmdline = 4;	// environment string vector (/proc/#/environ)
+	repeated string cmdline = 4;	// command line string vector (/proc/#/cmdline)
 }
