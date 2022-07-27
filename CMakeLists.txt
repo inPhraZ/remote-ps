@@ -97,8 +97,18 @@ endif()
 
 find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
 
+include_directories(
+	${PROJECT_SOURCE_DIR}/include
+	${PROJECT_SOURCE_DIR}/src
+)
+
+# proto sources
+file(GLOB proto_SRCS
+	"${PROJECT_SOURCE_DIR}/proto/remoteps.proto"
+)
+
 # Proto file
-get_filename_component(remoteps_proto "./remoteps.proto" ABSOLUTE)
+get_filename_component(remoteps_proto ${proto_SRCS} ABSOLUTE)
 get_filename_component(remoteps_proto_path "${remoteps_proto}" PATH)
 
 # Generated sources
@@ -130,12 +140,21 @@ target_link_libraries(remoteps_grpc_proto
   ${_GRPC_GRPCPP}
   ${_PROTOBUF_LIBPROTOBUF})
 
+# server sources
+file(GLOB server_SRCS
+	"${PROJECT_SOURCE_DIR}/include/remotepsd.hpp"
+	"${PROJECT_SOURCE_DIR}/include/version.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_service.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_address.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_procinfo.hpp"
+	"${PROJECT_SOURCE_DIR}/src/remotepsd.cpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps_service.cpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps_address.cpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps_procinfo.cpp"
+)
+
 # Target remoteps server daemon
-add_executable(remotepsd
-	remotepsd.cpp
-	remoteps_service.cpp
-	remoteps_address.cpp
-	remoteps_procinfo.cpp)
+add_executable(remotepsd ${server_SRCS})
 target_link_libraries(remotepsd
 	remoteps_grpc_proto
 	Boost::program_options
@@ -143,11 +162,19 @@ target_link_libraries(remotepsd
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF})
 
+# client sources
+file(GLOB client_SRCS
+	"${PROJECT_SOURCE_DIR}/include/remoteps.hpp"
+	"${PROJECT_SOURCE_DIR}/include/version.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_client.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_address.hpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps.cpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps_client.cpp"
+	"${PROJECT_SOURCE_DIR}/src/remoteps_address.cpp"
+)
+
 # Target remoteps client
-add_executable(remoteps
-	remoteps.cpp
-	remoteps_client.cpp
-	remoteps_address.cpp)
+add_executable(remoteps ${client_SRCS})
 target_link_libraries(remoteps
 	remoteps_grpc_proto
 	Boost::program_options
