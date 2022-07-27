@@ -128,10 +128,10 @@ void RemotePsClient::CommandList()
 	std::unique_ptr<ClientReader<Process>> reader(
 			stub_->ListOfProcs(&context, process));
 
-	std::cout << "Name\tPID\tPPID\n";
+	std::cout << "PID\tPPID\tCMD\n";
 	while (reader->Read(&tmp)) {
-		std::cout << tmp.name() << "\t";
 		std::cout << tmp.pid() << "\t";
-		std::cout << tmp.ppid() << std::endl;
+		std::cout << tmp.ppid() << "\t";
+		std::cout << tmp.cmd() << std::endl;
 	}
 }
