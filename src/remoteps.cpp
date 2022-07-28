@@ -18,7 +18,7 @@
 #include <boost/program_options.hpp>
 
 #include "remoteps_client.hpp"
-#include "version.hpp"
+#include "remoteps_version.hpp"
 
 namespace po = boost::program_options;
 

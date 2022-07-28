@@ -144,7 +144,7 @@ target_link_libraries(remoteps_grpc_proto
 # server sources
 file(GLOB server_SRCS
 	"${PROJECT_SOURCE_DIR}/include/remotepsd.hpp"
-	"${PROJECT_SOURCE_DIR}/include/version.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_version.hpp"
 	"${PROJECT_SOURCE_DIR}/include/remoteps_service.hpp"
 	"${PROJECT_SOURCE_DIR}/include/remoteps_address.hpp"
 	"${PROJECT_SOURCE_DIR}/include/remoteps_procinfo.hpp"
@@ -166,7 +166,7 @@ target_link_libraries(remotepsd
 # client sources
 file(GLOB client_SRCS
 	"${PROJECT_SOURCE_DIR}/include/remoteps.hpp"
-	"${PROJECT_SOURCE_DIR}/include/version.hpp"
+	"${PROJECT_SOURCE_DIR}/include/remoteps_version.hpp"
 	"${PROJECT_SOURCE_DIR}/include/remoteps_client.hpp"
 	"${PROJECT_SOURCE_DIR}/include/remoteps_address.hpp"
 	"${PROJECT_SOURCE_DIR}/src/remoteps.cpp"

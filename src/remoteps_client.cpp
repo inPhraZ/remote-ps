@@ -17,7 +17,7 @@
 #include <cstdint>
 
 #include "remoteps_client.hpp"
-#include "version.hpp"
+#include "remoteps_version.hpp"
 
 using grpc::Status;
 using grpc::ClientContext;
