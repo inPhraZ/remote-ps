@@ -7,10 +7,10 @@ package remoteps;
 service RemotePs {
 
 	// test the connection between client and server
-	rpc ConnectionTest (Message) returns (Message) {}
+	rpc connectionTest (Message) returns (Message) {}
 
 	// extract the list of all current running procs on server machine
-	rpc ListOfProcs (Process) returns (stream Process) {}
+	rpc listOfProcs (Process) returns (stream Process) {}
 }
 
 

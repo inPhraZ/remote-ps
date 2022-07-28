@@ -21,7 +21,7 @@ remoteps::Address::Address() {}
 remoteps::Address::Address(const std::string& ip, const uint16_t port)
 	: ip(ip), port(port) {}
 
-std::string remoteps::Address::IpPort()
+std::string remoteps::Address::getIpPort()
 {
 	return (this->ip + ":" + std::to_string(this->port));
 }

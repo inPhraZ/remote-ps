@@ -20,7 +20,7 @@
 using remoteps::ProcInfo;
 using remoteps::Process;
 
-void ProcInfo::ReadProcs()
+void ProcInfo::readProcs()
 {
 	procs.clear();
 
@@ -40,18 +40,18 @@ void ProcInfo::ReadProcs()
 		p.set_cmd(proc_info.cmd);
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
-		ExtractCmdline(p, std::string(*proc_info.cmdline));
-		ExtractEnviron(p, std::string(*proc_info.environ));
+		extractCmdline(p, std::string(*proc_info.cmdline));
+		extractEnviron(p, std::string(*proc_info.environ));
 		procs.push_back(p);
 	}
 }
 
-const std::vector<Process>& ProcInfo::GetProcs() const
+const std::vector<Process>& ProcInfo::getProcs() const
 {
 	return procs;
 }
 
-void ProcInfo::ExtractCmdline(Process& proc, const std::string& cmdline)
+void ProcInfo::extractCmdline(Process& proc, const std::string& cmdline)
 {
 	std::stringstream ss(cmdline);
 	std::string tmp;
@@ -61,7 +61,7 @@ void ProcInfo::ExtractCmdline(Process& proc, const std::string& cmdline)
 		proc.add_cmdline(tmp);
 }
 
-void ProcInfo::ExtractEnviron(Process& proc, const std::string& environ)
+void ProcInfo::extractEnviron(Process& proc, const std::string& environ)
 {
 	std::stringstream ss(environ);
 	std::string tmp;

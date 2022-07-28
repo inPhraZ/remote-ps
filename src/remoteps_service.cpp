@@ -44,7 +44,7 @@ RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
 	addr.setPort(port);
 }
 
-void RemotePsService::RunServer()
+void RemotePsService::runServer()
 {
 	if (addr.isValid() == false) {
 		std::cerr << "Invalid address to bind: " << addr.getIP() << std::endl;
@@ -55,7 +55,7 @@ void RemotePsService::RunServer()
 	grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
 	ServerBuilder builder;
-	builder.AddListeningPort(addr.IpPort(), grpc::InsecureServerCredentials());
+	builder.AddListeningPort(addr.getIpPort(), grpc::InsecureServerCredentials());
 	builder.RegisterService(this);
 
 	std::unique_ptr<Server> server(builder.BuildAndStart());
@@ -64,22 +64,22 @@ void RemotePsService::RunServer()
 		return;
 	}
 
-	std::cout << "Server is listening on " << addr.IpPort() << std::endl;
+	std::cout << "Server is listening on " << addr.getIpPort() << std::endl;
 
 	server->Wait();
 }
 
-Status RemotePsService::ConnectionTest(ServerContext* context, const Message* request,
+Status RemotePsService::connectionTest(ServerContext* context, const Message* request,
 		Message* reply)
 {
 	return Status::OK;
 }
 
-Status RemotePsService::ListOfProcs(ServerContext* context, const Process* process,
+Status RemotePsService::listOfProcs(ServerContext* context, const Process* process,
 		ServerWriter<Process>* writer)
 {
-	procinfo.ReadProcs();
-	const std::vector<Process> procs = procinfo.GetProcs();
+	procinfo.readProcs();
+	const std::vector<Process> procs = procinfo.getProcs();
 	for (const auto p : procs)
 		writer->Write(p);
 	return Status::OK;

@@ -22,22 +22,22 @@
 
 namespace po = boost::program_options;
 
-void parse_command_line(int argc, char *argv[], std::string& ip, uint16_t& port);
+void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port);
 
 int main(int argc, char *argv[])
 {
 	std::string ip;
 	uint16_t    port;
 
-	parse_command_line(argc, argv, ip, port);
+	parseCommandLine(argc, argv, ip, port);
 
 	remoteps::RemotePsService server(ip, port);
-	server.RunServer();
+	server.runServer();
 
 	return 0;
 }
 
-void parse_command_line(int argc, char *argv[], std::string& ip, uint16_t& port)
+void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port)
 {
 	try {
 		po::options_description description("[OPTIONS]");

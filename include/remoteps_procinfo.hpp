@@ -22,12 +22,12 @@ namespace remoteps {
 	class ProcInfo
 	{
 		public:
-			void ReadProcs();
-			const std::vector<Process>& GetProcs() const;
+			void readProcs();
+			const std::vector<Process>& getProcs() const;
 
 		protected:
-			void ExtractCmdline(Process& proc, const std::string& cmdline);
-			void ExtractEnviron(Process& proc, const std::string& environ);
+			void extractCmdline(Process& proc, const std::string& cmdline);
+			void extractEnviron(Process& proc, const std::string& environ);
 			std::vector<Process> procs;
 	};
 }

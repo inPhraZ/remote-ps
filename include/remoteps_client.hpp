@@ -34,20 +34,20 @@ namespace remoteps {
 	{
 		public:
 			RemotePsClient(const std::string& ip, const uint16_t port);
-			void CommandLoop();
+			void commandLoop();
 		private:
 			Address peer;
 			std::map<std::string, int> cmdMap;
 			std::map<int, std::string> cmdDesc;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
-			int ConnectionTest();
-			void GenerateCommands();
-			int ExecuteCommand(const std::string& cmd);
+			int connectionTest();
+			void generateCommands();
+			int executeCommand(const std::string& cmd);
 
 			/*  Commands */
-			void CommandHelp();
-			void CommandList();
+			void commandHelp();
+			void commandList();
 	};
 }
 

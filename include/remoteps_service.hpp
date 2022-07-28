@@ -31,14 +31,14 @@ namespace remoteps {
 		public:
 			RemotePsService();
 			RemotePsService(const std::string& ip, const uint16_t port);
-			void RunServer();
-			Status ConnectionTest(ServerContext* context, const Message *request,
+			void runServer();
+			Status connectionTest(ServerContext* context, const Message *request,
 					Message *reply);
 			Address addr;
 		private:
 			ProcInfo procinfo;
 
-			Status ListOfProcs(ServerContext* context, const Process* process,
+			Status listOfProcs(ServerContext* context, const Process* process,
 					ServerWriter<Process>* writer);
 	};
 }

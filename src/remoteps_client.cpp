@@ -29,12 +29,12 @@ RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 {
 	peer.setIP(ip);
 	peer.setPort(port);
-	channel = grpc::CreateChannel(peer.IpPort(), grpc::InsecureChannelCredentials());
+	channel = grpc::CreateChannel(peer.getIpPort(), grpc::InsecureChannelCredentials());
 	stub_ = RemotePs::NewStub(channel);
-	GenerateCommands();
+	generateCommands();
 }
 
-void RemotePsClient::GenerateCommands()
+void RemotePsClient::generateCommands()
 {
 	cmdMap.clear();
 	cmdDesc.clear();
@@ -49,23 +49,23 @@ void RemotePsClient::GenerateCommands()
 	cmdDesc[EXIT] = "Exit from program";
 }
 
-int RemotePsClient::ConnectionTest()
+int RemotePsClient::connectionTest()
 {
 	Message request;
 	Message reply;
 
 	ClientContext context;
-	Status status = stub_->ConnectionTest(&context, request, &reply);
+	Status status = stub_->connectionTest(&context, request, &reply);
 
 	if (status.ok())
 		return 0;
 	return 1;
 }
 
-void RemotePsClient::CommandLoop()
+void RemotePsClient::commandLoop()
 {
-	if (ConnectionTest()) {
-		std::cerr << "Connection failed to " << peer.IpPort() << std::endl;
+	if (connectionTest()) {
+		std::cerr << "Connection failed to " << peer.getIpPort() << std::endl;
 		return;
 	}
 
@@ -78,20 +78,20 @@ void RemotePsClient::CommandLoop()
 			return;
 		}
 
-		if (ExecuteCommand(cmd))
+		if (executeCommand(cmd))
 			return;
 	}
 }
 
-int RemotePsClient::ExecuteCommand(const std::string& cmd)
+int RemotePsClient::executeCommand(const std::string& cmd)
 {
 	try {
 		switch (cmdMap.at(cmd)) {
 			case HELP:
-				CommandHelp();
+				commandHelp();
 				break;
 			case LIST:
-				CommandList();
+				commandList();
 				break;
 			case EXIT:
 				return 1;
@@ -107,7 +107,7 @@ int RemotePsClient::ExecuteCommand(const std::string& cmd)
 	return 0;
 }
 
-void RemotePsClient::CommandHelp()
+void RemotePsClient::commandHelp()
 {
 	std::cout << "\nAvailable commands:\n";
 	for (const auto &[cmd, i] : cmdMap) {
@@ -119,14 +119,14 @@ void RemotePsClient::CommandHelp()
 	std::cout << std::endl;
 }
 
-void RemotePsClient::CommandList()
+void RemotePsClient::commandList()
 {
 	Process process;
 	Process tmp;
 	ClientContext context;
 
 	std::unique_ptr<ClientReader<Process>> reader(
-			stub_->ListOfProcs(&context, process));
+			stub_->listOfProcs(&context, process));
 
 	std::cout << "PID\tPPID\tCMD\n";
 	while (reader->Read(&tmp)) {

@@ -22,7 +22,7 @@ namespace remoteps {
 		public:
 			Address();
 			Address(const std::string& ip, const uint16_t port);
-			std::string IpPort();
+			std::string getIpPort();
 			void setIP(const std::string& ip);
 			void setPort(const uint16_t port);
 			std::string getIP();
