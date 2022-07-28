@@ -182,3 +182,6 @@ target_link_libraries(remoteps
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF})
 
+install(
+	TARGETS remotepsd remoteps
+	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
