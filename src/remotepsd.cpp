@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	server = std::unique_ptr<RemotePsService>(new RemotePsService(ip, port));
 	server->runServer();
 
-	t.join();
+	t.detach();
 
 	return 0;
 }
