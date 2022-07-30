@@ -12,9 +12,12 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
+#include <thread>
 #include <exception>
 #include <cstdint>
 #include <cerrno>
+#include <signal.h>
 #include <boost/program_options.hpp>
 
 #include "remoteps_service.hpp"
@@ -22,6 +25,13 @@
 
 namespace po = boost::program_options;
 
+using remoteps::RemotePsService;
+
+static bool shutdown = false;
+static std::unique_ptr<RemotePsService> server;
+
+void signalHandler(int sig);
+void checkShutdown();
 void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port);
 
 int main(int argc, char *argv[])
@@ -29,12 +39,29 @@ int main(int argc, char *argv[])
 	std::string ip;
 	uint16_t    port;
 
+	signal(SIGINT, signalHandler);
+
 	parseCommandLine(argc, argv, ip, port);
 
-	remoteps::RemotePsService server(ip, port);
-	server.runServer();
+	std::thread t(checkShutdown);
+
+	server = std::unique_ptr<RemotePsService>(new RemotePsService(ip, port));
+	server->runServer();
+
+	t.join();
 
 	return 0;
+}
+
+void signalHandler(int sig)
+{
+	shutdown = true;
+}
+
+void checkShutdown()
+{
+	while(!shutdown) sleep(1);
+	server->stopServer();
 }
 
 void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port)

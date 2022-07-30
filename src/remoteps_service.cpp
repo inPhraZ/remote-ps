@@ -58,7 +58,7 @@ void RemotePsService::runServer()
 	builder.AddListeningPort(addr.getIpPort(), grpc::InsecureServerCredentials());
 	builder.RegisterService(this);
 
-	std::unique_ptr<Server> server(builder.BuildAndStart());
+	server = builder.BuildAndStart();
 	if (server == nullptr) {
 		std::cerr << "Unable to run server" << std::endl;
 		return;
@@ -67,6 +67,12 @@ void RemotePsService::runServer()
 	std::cout << "Server is listening on " << addr.getIpPort() << std::endl;
 
 	server->Wait();
+}
+
+void RemotePsService::stopServer()
+{
+	server->Shutdown();
+	std::cout << "Server stopped" << std::endl;
 }
 
 Status RemotePsService::connectionTest(ServerContext* context, const Message* request,
