@@ -44,7 +44,6 @@ namespace remoteps {
 			std::unique_ptr<RemotePs::Stub> stub_;
 			int connectionTest();
 			void registerCommands();
-			int executeCommand(const std::string& cmd);
 
 			/*  Commands */
 			void commandHelp();

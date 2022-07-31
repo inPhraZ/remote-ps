@@ -86,38 +86,8 @@ void RemotePsClient::commandLoop()
 		catch (...) {
 			std::cout << cmd << ": command not found" << std::endl;
 		}
-#if 0
-		if (executeCommand(cmd))
-			return;
-#endif
 	}
 }
-
-#if 0
-int RemotePsClient::executeCommand(const std::string& cmd)
-{
-	try {
-		switch (cmdMap.at(cmd)) {
-			case HELP:
-				commandHelp();
-				break;
-			case LIST:
-				commandList();
-				break;
-			case EXIT:
-				return 1;
-				break;
-			default:
-				break;
-		}
-	}
-	catch (std::out_of_range) {
-		std::cout << cmd << ": command not found" << std::endl;
-	}
-
-	return 0;
-}
-#endif
 
 void RemotePsClient::commandHelp()
 {
