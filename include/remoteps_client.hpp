@@ -39,6 +39,7 @@ namespace remoteps {
 			Address peer;
 			std::map<std::string, int> cmdMap;
 			std::map<int, std::string> cmdDesc;
+			std::map<int, void (RemotePsClient::*)()> cmdFunc;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
 			int connectionTest();
