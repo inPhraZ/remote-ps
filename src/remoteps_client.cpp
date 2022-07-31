@@ -80,11 +80,20 @@ void RemotePsClient::commandLoop()
 			return;
 		}
 
+		try {
+			(*this.*cmdFunc.at(cmdMap.at(cmd)))();
+		}
+		catch (...) {
+			std::cout << cmd << ": command not found" << std::endl;
+		}
+#if 0
 		if (executeCommand(cmd))
 			return;
+#endif
 	}
 }
 
+#if 0
 int RemotePsClient::executeCommand(const std::string& cmd)
 {
 	try {
@@ -108,6 +117,7 @@ int RemotePsClient::executeCommand(const std::string& cmd)
 
 	return 0;
 }
+#endif
 
 void RemotePsClient::commandHelp()
 {
