@@ -57,9 +57,6 @@ void RemotePsService::runServer()
 		return;
 	}
 
-	grpc::EnableDefaultHealthCheckService(true);
-	grpc::reflection::InitProtoReflectionServerBuilderPlugin();
-
 	ServerBuilder builder;
 	builder.AddListeningPort(addr.getIpPort(), grpc::InsecureServerCredentials());
 	builder.RegisterService(this);
