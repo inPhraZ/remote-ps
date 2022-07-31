@@ -43,7 +43,7 @@ namespace remoteps {
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
 			int connectionTest();
-			void generateCommands();
+			void registerCommands();
 			int executeCommand(const std::string& cmd);
 
 			/*  Commands */

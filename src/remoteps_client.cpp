@@ -31,19 +31,21 @@ RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 	peer.setPort(port);
 	channel = grpc::CreateChannel(peer.getIpPort(), grpc::InsecureChannelCredentials());
 	stub_ = RemotePs::NewStub(channel);
-	generateCommands();
+	registerCommands();
 }
 
-void RemotePsClient::generateCommands()
+void RemotePsClient::registerCommands()
 {
 	cmdMap.clear();
 	cmdDesc.clear();
 
 	cmdMap["help"] = HELP;
 	cmdDesc[HELP] = "List of available commands and description";
+	cmdFunc[HELP] = &RemotePsClient::commandHelp;
 
 	cmdMap["list"] = LIST;
 	cmdDesc[LIST] = "List of all current running processes";
+	cmdFunc[LIST] = &RemotePsClient::commandList;
 
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
