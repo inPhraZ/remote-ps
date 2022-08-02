@@ -7,7 +7,7 @@ message(STATUS "remote-ps")
 set(CMAKE_CXX_STANDARD 17)
 message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lprocps")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-attributes -lprocps")
 
 include(FindPkgConfig)
 if ("${WITH_PROCPS}")
