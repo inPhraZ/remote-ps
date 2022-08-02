@@ -49,6 +49,7 @@ void RemotePsClient::registerCommands()
 
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
+	cmdFunc[EXIT] = &RemotePsClient::commandExit;
 }
 
 int RemotePsClient::connectionTest()
@@ -116,4 +117,9 @@ void RemotePsClient::commandList()
 		std::cout << tmp.ppid() << "\t";
 		std::cout << tmp.cmd() << std::endl;
 	}
+}
+
+void RemotePsClient::commandExit()
+{
+	exit(0);
 }

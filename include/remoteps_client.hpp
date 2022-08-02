@@ -48,6 +48,7 @@ namespace remoteps {
 			/*  Commands */
 			void commandHelp();
 			void commandList();
+			void commandExit();
 	};
 }
 
