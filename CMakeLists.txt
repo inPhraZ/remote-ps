@@ -9,6 +9,12 @@ message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lprocps")
 
+include(FindPkgConfig)
+if ("${WITH_PROCPS}")
+	pkg_check_modules(PROCPS REQUIRED libprocps)
+	message(STATUS "Using libprocps ${PROCPS_VERSION}")
+endif()
+
 ################################################################################
 # common cmake for gRPC
 if(MSVC)
