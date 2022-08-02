@@ -6,6 +6,7 @@ report information of the current processes on a remote linux server
 - Boost library >= 1.66
 - Protobuf >= 3.19
 - gRPC >= 1.46
+- libprocps >= 3.3
 
 ## Build and Install
 ```console
