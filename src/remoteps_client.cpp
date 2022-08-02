@@ -82,7 +82,7 @@ void RemotePsClient::commandLoop()
 		}
 
 		try {
-			(*this.*cmdFunc.at(cmdMap.at(cmd)))();
+			(*this.*cmdFunc.at(cmdMap.at(cmd)))(cmd);
 		}
 		catch (...) {
 			std::cout << cmd << ": command not found" << std::endl;
@@ -90,7 +90,7 @@ void RemotePsClient::commandLoop()
 	}
 }
 
-void RemotePsClient::commandHelp()
+void RemotePsClient::commandHelp([[maybe_unused]] const std::string& cmd)
 {
 	std::cout << "\nAvailable commands:\n";
 	for (const auto &[cmd, i] : cmdMap) {
@@ -102,7 +102,7 @@ void RemotePsClient::commandHelp()
 	std::cout << std::endl;
 }
 
-void RemotePsClient::commandList()
+void RemotePsClient::commandList([[maybe_unused]] const std::string& cmd)
 {
 	Process process;
 	Process tmp;
@@ -119,7 +119,7 @@ void RemotePsClient::commandList()
 	}
 }
 
-void RemotePsClient::commandExit()
+void RemotePsClient::commandExit([[maybe_unused]] const std::string& cmd)
 {
 	exit(0);
 }

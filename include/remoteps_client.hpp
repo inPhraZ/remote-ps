@@ -39,16 +39,17 @@ namespace remoteps {
 			Address peer;
 			std::map<std::string, int> cmdMap;
 			std::map<int, std::string> cmdDesc;
-			std::map<int, void (RemotePsClient::*)()> cmdFunc;
+			std::map<int, void (RemotePsClient::*)
+				([[maybe_unused]] const std::string&)> cmdFunc;
 			std::shared_ptr<grpc::Channel> channel;
 			std::unique_ptr<RemotePs::Stub> stub_;
 			int connectionTest();
 			void registerCommands();
 
 			/*  Commands */
-			void commandHelp();
-			void commandList();
-			void commandExit();
+			void commandHelp([[maybe_unused]] const std::string& cmd);
+			void commandList([[meybe_unused]] const std::string& cmd);
+			void commandExit([[meybe_unused]] const std::string& cmd);
 	};
 }
 
