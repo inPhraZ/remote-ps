@@ -38,6 +38,7 @@ void RemotePsClient::registerCommands()
 {
 	cmdMap.clear();
 	cmdDesc.clear();
+	cmdFunc.clear();
 
 	cmdMap["help"] = HELP;
 	cmdDesc[HELP] = "List of available commands and description";
