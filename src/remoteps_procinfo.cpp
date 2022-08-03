@@ -46,6 +46,18 @@ void ProcInfo::readProcs()
 	}
 }
 
+std::vector<Process> ProcInfo::readByCmd(const std::string& cmd)
+{
+	readProcs();
+
+	std::vector<Process> result;
+	for (auto p : procs) {
+		if (p.cmd() == cmd)
+			result.push_back(p);
+	}
+	return result;
+}
+
 const std::vector<Process>& ProcInfo::getProcs() const
 {
 	return procs;

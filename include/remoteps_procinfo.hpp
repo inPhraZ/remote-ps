@@ -23,6 +23,7 @@ namespace remoteps {
 	{
 		public:
 			void readProcs();
+			std::vector<Process> readByCmd(const std::string& cmd);
 			const std::vector<Process>& getProcs() const;
 
 		protected:
