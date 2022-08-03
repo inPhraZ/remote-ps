@@ -47,9 +47,9 @@ namespace remoteps {
 			void registerCommands();
 
 			/*  Commands */
-			void commandHelp([[maybe_unused]] const std::string& cmd);
-			void commandList([[maybe_unused]] const std::string& cmd);
-			void commandExit([[maybe_unused]] const std::string& cmd);
+			void commandHelp([[maybe_unused]] const std::string& param);
+			void commandList([[maybe_unused]] const std::string& param);
+			void commandExit([[maybe_unused]] const std::string& param);
 	};
 }
 
