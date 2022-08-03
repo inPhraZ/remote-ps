@@ -49,6 +49,10 @@ void RemotePsClient::registerCommands()
 	cmdDesc[LIST] = "List of all current running processes";
 	cmdFunc[LIST] = &RemotePsClient::commandList;
 
+	cmdMap["proc"] = PROC;
+	cmdDesc[PROC] = "Information of a given process";
+	cmdFunc[PROC] = &RemotePsClient::commandProc;
+
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
 	cmdFunc[EXIT] = &RemotePsClient::commandExit;
@@ -116,6 +120,27 @@ void RemotePsClient::commandList([[maybe_unused]] const std::string& param)
 
 	std::unique_ptr<ClientReader<Process>> reader(
 			stub_->listOfProcs(&context, process));
+
+	std::cout << "PID\tPPID\tCMD\n";
+	while (reader->Read(&tmp)) {
+		std::cout << tmp.pid() << "\t";
+		std::cout << tmp.ppid() << "\t";
+		std::cout << tmp.cmd() << std::endl;
+	}
+}
+
+void RemotePsClient::commandProc([[maybe_unused]] const std::string& param)
+{
+	ClientContext context;
+	Process proc;
+	Process tmp;
+
+
+	proc.Clear();
+	proc.set_cmd(param);
+
+	std::unique_ptr<ClientReader<Process>> reader(
+			stub_->procByCmd(&context, proc));
 
 	std::cout << "PID\tPPID\tCMD\n";
 	while (reader->Read(&tmp)) {

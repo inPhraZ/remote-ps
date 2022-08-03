@@ -27,6 +27,7 @@ namespace remoteps {
 	enum CommandIndex {
 		HELP = 1,
 		LIST,
+		PROC,
 		EXIT
 	};
 
@@ -49,6 +50,7 @@ namespace remoteps {
 			/*  Commands */
 			void commandHelp([[maybe_unused]] const std::string& param);
 			void commandList([[maybe_unused]] const std::string& param);
+			void commandProc([[maybe_unused]] const std::string& param);
 			void commandExit([[maybe_unused]] const std::string& param);
 	};
 }
