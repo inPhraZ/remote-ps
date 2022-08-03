@@ -11,6 +11,9 @@ service RemotePs {
 
 	// extract the list of all current running procs on server machine
 	rpc listOfProcs (Process) returns (stream Process) {}
+
+	// extract information of processes with given name
+	rpc procByCmd (Process) returns (stream Process) {}
 }
 
 
