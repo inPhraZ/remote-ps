@@ -98,3 +98,12 @@ Status RemotePsService::listOfProcs(ServerContext* context, const Process* proce
 		writer->Write(p);
 	return Status::OK;
 }
+
+Status RemotePsService::procByCmd(ServerContext* context, const Process* process,
+		ServerWriter<Process>* writer)
+{
+	const std::vector<Process> procs = procinfo.readByCmd(process->cmd());
+	for (const auto p : procs)
+		writer->Write(p);
+	return Status::OK;
+}
