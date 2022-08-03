@@ -12,8 +12,9 @@
 
 #include <iostream>
 #include <memory>
-#include <string>
 #include <map>
+#include <string>
+#include <sstream>
 #include <cstdint>
 
 #include "remoteps_client.hpp"
@@ -74,19 +75,23 @@ void RemotePsClient::commandLoop()
 	}
 
 	while (true) {
-		std::string cmd;
+		std::string input;
 		std::cout << REMOTEPS_NAME << "> ";
-		std::getline(std::cin, cmd);
+		std::getline(std::cin, input);
 		if (std::cin.eof()) {
 			std::cout << std::endl;
 			return;
 		}
-
+		std::string cmd;
+		std::stringstream ss(input);
+		ss >> cmd;
 		try {
-			(*this.*cmdFunc.at(cmdMap.at(cmd)))(cmd);
+			std::string param;
+			param = input.substr(input.find(" ") + 1, input.length());
+			(*this.*cmdFunc.at(cmdMap.at(cmd)))(param);
 		}
-		catch (...) {
-			std::cout << cmd << ": command not found" << std::endl;
+		catch (std::out_of_range) {
+			std::cerr << cmd << ": command not found" << std::endl;
 		}
 	}
 }
