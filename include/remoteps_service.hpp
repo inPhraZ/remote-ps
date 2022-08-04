@@ -48,6 +48,9 @@ namespace remoteps {
 
 			Status procByCmd(ServerContext* context, const Process* process,
 					ServerWriter<Process>* writer);
+
+			Status procByPid(ServerContext* context, const Process* request,
+					Process* reply);
 	};
 }
 

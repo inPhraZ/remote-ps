@@ -107,3 +107,10 @@ Status RemotePsService::procByCmd(ServerContext* context, const Process* process
 		writer->Write(p);
 	return Status::OK;
 }
+
+Status RemotePsService::procByPid(ServerContext* context, const Process* request,
+		Process* reply)
+{
+	*reply = procinfo.readByPid(request->pid());
+	return Status::OK;
+}
