@@ -47,7 +47,10 @@ namespace remoteps {
 			std::unique_ptr<RemotePs::Stub> stub_;
 			int connectionTest();
 			void registerCommands();
+
+			/*  Utils */
 			void printProcess(const Process& proc);
+			void printCmdline(const Process& proc);
 
 			/*  Commands */
 			void commandHelp([[maybe_unused]] const std::string& param);

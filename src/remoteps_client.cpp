@@ -112,6 +112,12 @@ void RemotePsClient::printProcess(const Process& proc)
 	std::cout << proc.cmd() << std::endl;
 }
 
+void RemotePsClient::printCmdline(const Process& proc)
+{
+	for (int i = 0; i < proc.cmdline_size(); ++i)
+		std::cout << proc.cmdline(i) << std::endl;
+}
+
 void RemotePsClient::commandHelp([[maybe_unused]] const std::string& param)
 {
 	std::cout << "\nAvailable commands:\n";
@@ -172,6 +178,9 @@ void RemotePsClient::commandPid([[maybe_unused]] const std::string& param)
 
 	std::cout << "PID\tPPID\tUSR\tCMD\n";
 	printProcess(reply);
+
+	std::cout << "\nCmdline:\n";
+	printCmdline(reply);
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
