@@ -100,6 +100,14 @@ void RemotePsClient::commandLoop()
 	}
 }
 
+void RemotePsClient::printProcess(const Process& proc)
+{
+	std::cout << proc.pid() << "\t";
+	std::cout << proc.ppid() << "\t";
+	std::cout << proc.user() << "\t";
+	std::cout << proc.cmd() << std::endl;
+}
+
 void RemotePsClient::commandHelp([[maybe_unused]] const std::string& param)
 {
 	std::cout << "\nAvailable commands:\n";
@@ -121,12 +129,9 @@ void RemotePsClient::commandList([[maybe_unused]] const std::string& param)
 	std::unique_ptr<ClientReader<Process>> reader(
 			stub_->listOfProcs(&context, process));
 
-	std::cout << "PID\tPPID\tCMD\n";
-	while (reader->Read(&tmp)) {
-		std::cout << tmp.pid() << "\t";
-		std::cout << tmp.ppid() << "\t";
-		std::cout << tmp.cmd() << std::endl;
-	}
+	std::cout << "PID\tPPID\tUSR\tCMD\n";
+	while(reader->Read(&tmp))
+		printProcess(tmp);
 }
 
 void RemotePsClient::commandProc([[maybe_unused]] const std::string& param)
@@ -142,12 +147,9 @@ void RemotePsClient::commandProc([[maybe_unused]] const std::string& param)
 	std::unique_ptr<ClientReader<Process>> reader(
 			stub_->procByCmd(&context, proc));
 
-	std::cout << "PID\tPPID\tCMD\n";
-	while (reader->Read(&tmp)) {
-		std::cout << tmp.pid() << "\t";
-		std::cout << tmp.ppid() << "\t";
-		std::cout << tmp.cmd() << std::endl;
-	}
+	std::cout << "PID\tPPID\tUSR\tCMD\n";
+	while (reader->Read(&tmp))
+		printProcess(tmp);
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
