@@ -27,7 +27,8 @@ void ProcInfo::readProcs()
 	int flags = PROC_FILLMEM | PROC_FILLSTAT |
 		PROC_FILLSTATUS | PROC_FILLCOM |
 		PROC_FILLARG | PROC_EDITCMDLCVT |
-		PROC_FILLENV | PROC_EDITENVRCVT;
+		PROC_FILLENV | PROC_EDITENVRCVT |
+		PROC_FILLUSR;
 
 	PROCTAB* proc = openproc(flags);
 
@@ -40,6 +41,7 @@ void ProcInfo::readProcs()
 		p.set_cmd(proc_info.cmd);
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
+		p.set_user(proc_info.euser);
 		extractCmdline(p, std::string(*proc_info.cmdline));
 		extractEnviron(p, std::string(*proc_info.environ));
 		procs.push_back(p);
