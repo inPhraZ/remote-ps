@@ -28,6 +28,7 @@ namespace remoteps {
 		HELP = 1,
 		LIST,
 		PROC,
+		PID,
 		EXIT
 	};
 
@@ -52,6 +53,7 @@ namespace remoteps {
 			void commandHelp([[maybe_unused]] const std::string& param);
 			void commandList([[maybe_unused]] const std::string& param);
 			void commandProc([[maybe_unused]] const std::string& param);
+			void commandPid([[maybe_unused]] const std::string& param);
 			void commandExit([[maybe_unused]] const std::string& param);
 	};
 }

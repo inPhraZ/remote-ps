@@ -53,6 +53,10 @@ void RemotePsClient::registerCommands()
 	cmdDesc[PROC] = "Information of a given process";
 	cmdFunc[PROC] = &RemotePsClient::commandProc;
 
+	cmdMap["pid"] = PID;
+	cmdDesc[PID] = "Information of a given process";
+	cmdFunc[PID] = &RemotePsClient::commandPid;
+
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
 	cmdFunc[EXIT] = &RemotePsClient::commandExit;
@@ -150,6 +154,24 @@ void RemotePsClient::commandProc([[maybe_unused]] const std::string& param)
 	std::cout << "PID\tPPID\tUSR\tCMD\n";
 	while (reader->Read(&tmp))
 		printProcess(tmp);
+}
+
+void RemotePsClient::commandPid([[maybe_unused]] const std::string& param)
+{
+	std::stringstream ss(param);
+	ClientContext context;
+	Process request;
+	Process reply;
+	uint32_t pid;
+	ss >> pid;
+
+	request.Clear();
+	request.set_pid(pid);
+
+	stub_->procByPid(&context, request, &reply);
+
+	std::cout << "PID\tPPID\tUSR\tCMD\n";
+	printProcess(reply);
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
