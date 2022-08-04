@@ -53,11 +53,22 @@ std::vector<Process> ProcInfo::readByCmd(const std::string& cmd)
 	readProcs();
 
 	std::vector<Process> result;
-	for (auto p : procs) {
+	for (const auto p : procs) {
 		if (p.cmd() == cmd)
 			result.push_back(p);
 	}
 	return result;
+}
+
+Process ProcInfo::readByPid(const uint32_t pid)
+{
+	readProcs();
+	Process tmp;
+	tmp.Clear();
+	for (const auto p : procs)
+		if (p.pid() == pid)
+			tmp = p;
+	return tmp;
 }
 
 const std::vector<Process>& ProcInfo::getProcs() const

@@ -15,6 +15,7 @@
 #define 		__REMOTEPS_PROCINFO_HPP_	1
 
 #include <vector>
+#include <cstdint>
 
 #include "remoteps.pb.h"
 
@@ -24,6 +25,7 @@ namespace remoteps {
 		public:
 			void readProcs();
 			std::vector<Process> readByCmd(const std::string& cmd);
+			Process readByPid(const uint32_t pid);
 			const std::vector<Process>& getProcs() const;
 
 		protected:
