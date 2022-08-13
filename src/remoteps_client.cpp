@@ -171,6 +171,11 @@ void RemotePsClient::commandPid([[maybe_unused]] const std::string& param)
 	uint32_t pid;
 	ss >> pid;
 
+	if (pid == 0) {
+		std::cerr << "pid: Invalid argument: " << param << std::endl;
+		return;
+	}
+
 	request.Clear();
 	request.set_pid(pid);
 
