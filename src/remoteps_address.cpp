@@ -72,5 +72,7 @@ bool remoteps::Address::isValid()
 {
 	if (isV4() || isV6())
 		return true;
+	if (ip.compare("localhost"))
+		return true;
 	return false;
 }

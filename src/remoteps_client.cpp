@@ -57,7 +57,7 @@ RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 	cred_ops.pem_root_certs = root;
 
 	auto channel_creds = grpc::SslCredentials(cred_ops);
-	channel = grpc::CreateChannel("localhost:5000", channel_creds);
+	channel = grpc::CreateChannel(peer.getIpPort(), channel_creds);
 	stub_ = RemotePs::NewStub(channel);
 	registerCommands();
 }
