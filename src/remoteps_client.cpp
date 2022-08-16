@@ -11,6 +11,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <map>
 #include <string>
@@ -26,11 +27,37 @@ using grpc::ClientReader;
 using remoteps::RemotePsClient;
 using remoteps::Message;
 
+static std::string readFile(const std::string& filename)
+{
+	std::stringstream ss;
+	std::ifstream file(filename.c_str(), std::ios::in);
+	if (file.is_open()) {
+		ss << file.rdbuf();
+		file.close();
+	}
+	return ss.str();
+}
+
 RemotePsClient::RemotePsClient(const std::string& ip, const uint16_t port)
 {
 	peer.setIP(ip);
 	peer.setPort(port);
-	channel = grpc::CreateChannel(peer.getIpPort(), grpc::InsecureChannelCredentials());
+	
+	std::string key;
+	std::string cert;
+	std::string root;
+
+	key = readFile("cert/remotePsClient.key");
+	cert = readFile("cert/remotePsClient.crt");
+	root = readFile("cert/remotePsServer.crt");
+
+	grpc::SslCredentialsOptions cred_ops;
+	cred_ops.pem_private_key = key;
+	cred_ops.pem_cert_chain = cert;
+	cred_ops.pem_root_certs = root;
+
+	auto channel_creds = grpc::SslCredentials(cred_ops);
+	channel = grpc::CreateChannel("localhost:5000", channel_creds);
 	stub_ = RemotePs::NewStub(channel);
 	registerCommands();
 }

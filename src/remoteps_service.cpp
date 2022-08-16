@@ -12,12 +12,15 @@
  */
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <memory>
 #include <cstdint>
 #include <syslog.h>
 
 #include <grpcpp/grpcpp.h>
+#include <grpcpp/security/server_credentials.h>
 #include <grpcpp/health_check_service_interface.h>
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 
@@ -46,6 +49,17 @@ RemotePsService::RemotePsService(const std::string& ip, const uint16_t port)
 	addr.setPort(port);
 }
 
+static std::string readFile(const std::string& filename)
+{
+	std::stringstream ss;
+	std::ifstream file(filename.c_str(), std::ios::in);
+	if (file.is_open()) {
+		ss << file.rdbuf();
+		file.close();
+	}
+	return ss.str();
+}
+
 void RemotePsService::runServer()
 {
 	openlog(REMOTEPS_NAME, LOG_PID, LOG_DAEMON);
@@ -58,7 +72,25 @@ void RemotePsService::runServer()
 	}
 
 	ServerBuilder builder;
-	builder.AddListeningPort(addr.getIpPort(), grpc::InsecureServerCredentials());
+
+	std::string key;
+	std::string cert;
+	std::string root;
+
+	key = readFile("cert/remotePsServer.key");
+	cert = readFile("cert/remotePsServer.crt");
+	root = readFile("cert/remotePsCA.crt");
+
+	grpc::SslServerCredentialsOptions::PemKeyCertPair keycert = { key, cert };
+
+	grpc::SslServerCredentialsOptions cred_ops;
+	cred_ops.pem_root_certs = root;
+	cred_ops.pem_key_cert_pairs.push_back(keycert);
+
+	std::shared_ptr<grpc::ServerCredentials> creds;
+	creds = grpc::SslServerCredentials(cred_ops);
+
+	builder.AddListeningPort(addr.getIpPort(), creds);
 	builder.RegisterService(this);
 
 	server = builder.BuildAndStart();
