@@ -2,11 +2,11 @@
 report information of the current processes on a remote linux server
 
 ## Requirements
-- cmake >= 3.5
-- Boost library >= 1.66
-- Protobuf >= 3.19
-- gRPC >= 1.46
-- libprocps >= 3.3
+- cmake
+- Boost
+- Protobuf
+- gRPC
+- libprocps
 
 ## Build and Install
 ```console
