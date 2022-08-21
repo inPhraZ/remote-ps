@@ -7,17 +7,17 @@ message(STATUS "remote-ps")
 set(CMAKE_CXX_STANDARD 17)
 message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 
-
+# boost
 find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
 message(STATUS "Using Boost ${Boost_VERSION}")
 
-############### gRPC ##############
+# gRPC
 include(FetchContent)
+set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(
   gRPC
   GIT_REPOSITORY https://github.com/grpc/grpc
 )
-set(FETCHCONTENT_QUIET OFF)
 FetchContent_MakeAvailable(gRPC)
 
 set(_PROTOBUF_LIBPROTOBUF libprotobuf)
@@ -25,9 +25,8 @@ set(_REFLECTION grpc++_reflection)
 set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
 set(_GRPC_GRPCPP grpc++)
 set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
-###################################
 
-# procps library
+# procps
 set(_PROCPS procps)
 
 include_directories(
@@ -57,21 +56,24 @@ add_custom_command(
 			--cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
 			-I "${remoteps_proto_path}"
 			--plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"  "${remoteps_proto}"
-	DEPENDS "${remoteps_proto}")
+	DEPENDS "${remoteps_proto}"
+)
 
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 # remoteps_grpc_proto
 add_library(remoteps_grpc_proto
-  ${remoteps_grpc_srcs}
-  ${remoteps_grpc_hdrs}
-  ${remoteps_proto_srcs}
-  ${remoteps_proto_hdrs})
+	${remoteps_grpc_srcs}
+	${remoteps_grpc_hdrs}
+	${remoteps_proto_srcs}
+	${remoteps_proto_hdrs}
+)
 target_link_libraries(remoteps_grpc_proto
-  ${_REFLECTION}
-  ${_GRPC_GRPCPP}
-  ${_PROTOBUF_LIBPROTOBUF})
+	${_REFLECTION}
+	${_GRPC_GRPCPP}
+	${_PROTOBUF_LIBPROTOBUF}
+)
 
 # server sources
 file(GLOB server_SRCS
@@ -95,7 +97,7 @@ target_link_libraries(remotepsd
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
 	${_PROCPS}
-	grpc++)
+)
 
 # client sources
 file(GLOB client_SRCS
@@ -116,8 +118,10 @@ target_link_libraries(remoteps
 	${_REFLECTION}
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
-	grpc++)
+)
 
+# Install
 install(
 	TARGETS remotepsd remoteps
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+)
