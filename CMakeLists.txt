@@ -7,13 +7,6 @@ message(STATUS "remote-ps")
 set(CMAKE_CXX_STANDARD 17)
 message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-attributes -lprocps")
-
-include(FindPkgConfig)
-if ("${WITH_PROCPS}")
-	pkg_check_modules(PROCPS REQUIRED libprocps)
-	message(STATUS "Using libprocps ${PROCPS_VERSION}")
-endif()
 
 find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
 message(STATUS "Using Boost ${Boost_VERSION}")
@@ -33,6 +26,9 @@ set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
 set(_GRPC_GRPCPP grpc++)
 set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
 ###################################
+
+# procps library
+set(_PROCPS procps)
 
 include_directories(
 	${PROJECT_SOURCE_DIR}/include
@@ -98,6 +94,7 @@ target_link_libraries(remotepsd
 	${_REFLECTION}
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
+	${_PROCPS}
 	grpc++)
 
 # client sources
