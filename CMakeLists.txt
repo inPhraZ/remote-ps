@@ -7,20 +7,23 @@ message(STATUS "remote-ps")
 set(CMAKE_CXX_STANDARD 17)
 message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 
+include(FetchContent)
+set(FETCHCONTENT_QUIET OFF)
+
 # boost
-find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
-message(STATUS "Using Boost ${Boost_VERSION}")
+FetchContent_Declare(
+	boost
+	GIT_REPOSITORY https://github.com/boostorg/boost
+)
+FetchContent_MakeAvailable(boost)
 set(_BOOST_PROGRAM_OPTIONS Boost::program_options)
 
 # gRPC
-include(FetchContent)
-set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(
 	gRPC
 	GIT_REPOSITORY https://github.com/grpc/grpc
 )
 FetchContent_MakeAvailable(gRPC)
-
 set(_PROTOBUF_LIBPROTOBUF libprotobuf)
 set(_REFLECTION grpc++_reflection)
 set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
