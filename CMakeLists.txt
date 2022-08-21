@@ -10,13 +10,14 @@ message(STATUS "Using c++${CMAKE_CXX_STANDARD}")
 # boost
 find_package(Boost 1.66 COMPONENTS program_options REQUIRED)
 message(STATUS "Using Boost ${Boost_VERSION}")
+set(_BOOST_PROGRAM_OPTIONS Boost::program_options)
 
 # gRPC
 include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(
-  gRPC
-  GIT_REPOSITORY https://github.com/grpc/grpc
+	gRPC
+	GIT_REPOSITORY https://github.com/grpc/grpc
 )
 FetchContent_MakeAvailable(gRPC)
 
@@ -74,6 +75,7 @@ target_link_libraries(remoteps_grpc_proto
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
 )
+set(_REMOTEPS_GRPC_PROTO remoteps_grpc_proto)
 
 # server sources
 file(GLOB server_SRCS
@@ -91,8 +93,8 @@ file(GLOB server_SRCS
 # Target remoteps server daemon
 add_executable(remotepsd ${server_SRCS})
 target_link_libraries(remotepsd
-	remoteps_grpc_proto
-	Boost::program_options
+	${_REMOTEPS_GRPC_PROTO}
+	${_BOOST_PROGRAM_OPTIONS}
 	${_REFLECTION}
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
@@ -113,8 +115,8 @@ file(GLOB client_SRCS
 # Target remoteps client
 add_executable(remoteps ${client_SRCS})
 target_link_libraries(remoteps
-	remoteps_grpc_proto
-	Boost::program_options
+	${_REMOTEPS_GRPC_PROTO}
+	${_BOOST_PROGRAM_OPTIONS}
 	${_REFLECTION}
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
