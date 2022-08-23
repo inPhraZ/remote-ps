@@ -31,7 +31,18 @@ set(_GRPC_GRPCPP grpc++)
 set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
 
 # procps
-set(_PROCPS procps)
+include(ExternalProject)
+ExternalProject_Add(procps
+	GIT_REPOSITORY https://gitlab.com/procps-ng/procps
+	CONFIGURE_COMMAND ""
+	BUILD_COMMAND <SOURCE_DIR>/autogen.sh
+	      COMMAND <SOURCE_DIR>/configure --prefix=<BINARY_DIR>
+		  COMMAND make
+		  COMMAND make install
+)
+ExternalProject_Get_Property(procps binary_dir)
+include_directories(${binary_dir}/include)
+set(_PROCPS ${binary_dir}/lib/libprocps.a)
 
 include_directories(
 	${PROJECT_SOURCE_DIR}/include
