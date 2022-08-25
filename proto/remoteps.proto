@@ -30,6 +30,7 @@ message Process {
 	uint32  pid = 2;		// task id, the POSIX thread ID
 	uint32  ppid = 3;		// pid of parent process
 	string  user = 4;		// effective user name
-	repeated string cmdline = 5;	// command line string vector (/proc/#/cmdline)
-	repeated string environ = 6;	// environment string vector (/proc/#/environ)
+	uint64  priority = 5;		// kernel scheduling priority
+	repeated string cmdline = 6;	// command line string vector (/proc/#/cmdline)
+	repeated string environ = 7;	// environment string vector (/proc/#/environ)
 }
