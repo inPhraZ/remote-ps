@@ -31,7 +31,7 @@ message Process {
 	uint32  ppid = 3;		// pid of parent process
 	string  user = 4;		// effective user name
 	uint64  priority = 5;		// kernel scheduling priority
-	int64  nice = 6;		// standard unix nice level of process
+	int64   nice = 6;		// standard unix nice level of process
 	repeated string cmdline = 7;	// command line string vector (/proc/#/cmdline)
 	repeated string environ = 8;	// environment string vector (/proc/#/environ)
 }
