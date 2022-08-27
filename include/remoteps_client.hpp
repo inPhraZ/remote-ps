@@ -50,6 +50,7 @@ namespace remoteps {
 
 			/*  Utils */
 			void printProcess(const Process& proc);
+			void printProcDetail(const Process& proc);
 			void printCmdline(const Process& proc);
 
 			/*  Commands */
