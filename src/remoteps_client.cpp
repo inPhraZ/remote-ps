@@ -139,6 +139,18 @@ void RemotePsClient::printProcess(const Process& proc)
 	std::cout << proc.cmd() << std::endl;
 }
 
+void RemotePsClient::printProcDetails(const Process& proc)
+{
+	std::cout << "PID\tPPID\tUSR\tCMD\n";
+	printProcess(reply);
+
+	std::cout << "\nCmdline:\n";
+	printCmdline(reply);
+
+	std::cout << "\nPriority: " << proc.priority();
+	std::cout << "\nNice: " << proc.nice() << std::endl;
+}
+
 void RemotePsClient::printCmdline(const Process& proc)
 {
 	for (int i = 0; i < proc.cmdline_size(); ++i)
@@ -208,11 +220,7 @@ void RemotePsClient::commandPid([[maybe_unused]] const std::string& param)
 
 	stub_->procByPid(&context, request, &reply);
 
-	std::cout << "PID\tPPID\tUSR\tCMD\n";
-	printProcess(reply);
-
-	std::cout << "\nCmdline:\n";
-	printCmdline(reply);
+	printProcDetails(reply);
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
