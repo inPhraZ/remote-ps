@@ -33,6 +33,7 @@ message Process {
 	string  user = 5;		// effective user name
 	uint64  priority = 6;		// kernel scheduling priority
 	int64   nice = 7;		// standard unix nice level of process
-	repeated string cmdline = 8;	// command line string vector (/proc/#/cmdline)
-	repeated string environ = 9;	// environment string vector (/proc/#/environ)
+	uint64  utime = 8;		// user-mode CPU time accumulated by process
+	repeated string cmdline = 9;	// command line string vector (/proc/#/cmdline)
+	repeated string environ = 10;	// environment string vector (/proc/#/environ)
 }
