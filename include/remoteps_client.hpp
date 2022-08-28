@@ -53,6 +53,7 @@ namespace remoteps {
 			void printProcess(const Process& proc);
 			void printProcDetail(const Process& proc);
 			void printCmdline(const Process& proc);
+			void printEnviron(const Process& proc);
 
 			/*  Commands */
 			void commandHelp([[maybe_unused]] const std::string& param);

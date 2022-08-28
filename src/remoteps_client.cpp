@@ -161,6 +161,12 @@ void RemotePsClient::printCmdline(const Process& proc)
 		std::cout << proc.cmdline(i) << std::endl;
 }
 
+void RemotePsClient::printEnviron(const Process& proc)
+{
+	for (int i = 0; i < proc.environ_size(); ++i)
+		std::cout << proc.environ(i) << std::endl;
+}
+
 void RemotePsClient::commandHelp([[maybe_unused]] const std::string& param)
 {
 	std::cout << "\nAvailable commands:\n";
@@ -246,7 +252,7 @@ void RemotePsClient::commandEnv([[maybe_unused]] const std::string& param)
 
 	stub_->procByPid(&context, request, &reply);
 
-	// print environment variables
+	printEnviron(reply);
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
