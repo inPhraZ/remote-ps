@@ -41,6 +41,7 @@ void ProcInfo::readProcs()
 		p.set_cmd(proc_info.cmd);
 		p.set_pid(proc_info.tid);
 		p.set_ppid(proc_info.ppid);
+		p.set_sid(proc_info.session);
 		p.set_user(proc_info.euser);
 		p.set_priority(proc_info.priority);
 		p.set_nice(proc_info.nice);

@@ -152,7 +152,8 @@ void RemotePsClient::printProcDetail(const Process& proc)
 	printCmdline(proc);
 
 	std::cout << "\nPriority: " << proc.priority();
-	std::cout << "\nNice: " << proc.nice() << std::endl;
+	std::cout << "\nNice: " << proc.nice();
+	std::cout << "\nSessionID: " << proc.sid() << std::endl;
 }
 
 void RemotePsClient::printCmdline(const Process& proc)
