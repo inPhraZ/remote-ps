@@ -84,6 +84,10 @@ void RemotePsClient::registerCommands()
 	cmdDesc[PID] = "Information of a given process";
 	cmdFunc[PID] = &RemotePsClient::commandPid;
 
+	cmdMap["env"] = ENV;
+	cmdDesc[ENV] = "Environment variables of a process";
+	cmdFunc[ENV] = &RemotePsClient::commandEnv;
+
 	cmdMap["exit"] = EXIT;
 	cmdDesc[EXIT] = "Exit from program";
 	cmdFunc[EXIT] = &RemotePsClient::commandExit;
@@ -221,6 +225,28 @@ void RemotePsClient::commandPid([[maybe_unused]] const std::string& param)
 	stub_->procByPid(&context, request, &reply);
 
 	printProcDetail(reply);
+}
+
+void RemotePsClient::commandEnv([[maybe_unused]] const std::string& param)
+{
+	std::stringstream ss(param);
+	ClientContext context;
+	Process request;
+	Process reply;
+	uint32_t pid;
+	ss >> pid;
+
+	if (pid == 0) {
+		std::cerr << "pid: Invalid argument: " << param << std::endl;
+		return;
+	}
+
+	request.Clear();
+	request.set_pid(pid);
+
+	stub_->procByPid(&context, request, &reply);
+
+	// print environment variables
 }
 
 void RemotePsClient::commandExit([[maybe_unused]] const std::string& param)
