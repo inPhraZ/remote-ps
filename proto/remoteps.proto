@@ -34,6 +34,7 @@ message Process {
 	uint64  priority = 6;		// kernel scheduling priority
 	int64   nice = 7;		// standard unix nice level of process
 	uint64  utime = 8;		// user-mode CPU time accumulated by process
-	repeated string cmdline = 9;	// command line string vector (/proc/#/cmdline)
-	repeated string environ = 10;	// environment string vector (/proc/#/environ)
+	uint64  stime = 9;		// kernel-mode CPU time accumulated by process
+	repeated string cmdline = 10;	// command line string vector (/proc/#/cmdline)
+	repeated string environ = 11;	// environment string vector (/proc/#/environ)
 }
