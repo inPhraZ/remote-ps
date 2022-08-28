@@ -29,6 +29,7 @@ namespace remoteps {
 		LIST,
 		PROC,
 		PID,
+		ENV,
 		EXIT
 	};
 
@@ -58,6 +59,7 @@ namespace remoteps {
 			void commandList([[maybe_unused]] const std::string& param);
 			void commandProc([[maybe_unused]] const std::string& param);
 			void commandPid([[maybe_unused]] const std::string& param);
+			void commandEnv([[maybe_unused]] const std::string& param);
 			void commandExit([[maybe_unused]] const std::string& param);
 	};
 }
