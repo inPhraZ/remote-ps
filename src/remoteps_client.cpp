@@ -156,7 +156,8 @@ void RemotePsClient::printProcDetail(const Process& proc)
 	std::cout << "\nSessionID:   " << proc.sid();
 	std::cout << "\nuser time:   " << proc.utime();
 	std::cout << "\nkernel time: " << proc.stime();
-	std::cout << "\nstart time:  " << proc.start_time() << std::endl;
+	std::cout << "\nstart time:  " << proc.start_time();
+	std::cout << std::endl << std::endl;
 }
 
 void RemotePsClient::printCmdline(const Process& proc)
