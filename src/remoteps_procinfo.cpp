@@ -45,6 +45,8 @@ void ProcInfo::readProcs()
 		p.set_user(proc_info.euser);
 		p.set_priority(proc_info.priority);
 		p.set_nice(proc_info.nice);
+		p.set_utime(proc_info.utime);
+		p.set_stime(proc_info.stime);
 		extractCmdline(p, std::string(*proc_info.cmdline));
 		extractEnviron(p, std::string(*proc_info.environ));
 		procs.push_back(p);
