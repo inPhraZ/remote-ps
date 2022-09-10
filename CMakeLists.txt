@@ -30,6 +30,10 @@ set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
 set(_GRPC_GRPCPP grpc++)
 set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
 
+set(_PROMETHEUS_CORE prometheus-cpp-core)
+set(_PROMETHEUS_PULL prometheus-cpp-pull)
+set(_Z z)
+
 # procps
 include(ExternalProject)
 ExternalProject_Add(procps
@@ -43,6 +47,7 @@ ExternalProject_Add(procps
 ExternalProject_Get_Property(procps binary_dir)
 include_directories(${binary_dir}/include)
 set(_PROCPS ${binary_dir}/lib/libprocps.a)
+set(_PROCPS procps)
 
 include_directories(
 	${PROJECT_SOURCE_DIR}/include
@@ -113,6 +118,9 @@ target_link_libraries(remotepsd
 	${_GRPC_GRPCPP}
 	${_PROTOBUF_LIBPROTOBUF}
 	${_PROCPS}
+	${_PROMETHEUS_CORE}
+	${_PROMETHEUS_PULL}
+	${_Z}
 )
 
 # client sources
