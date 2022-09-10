@@ -14,18 +14,25 @@
 #include <string>
 #include <memory>
 #include <thread>
+#include <chrono>
 #include <exception>
 #include <cstdint>
 #include <cerrno>
 #include <signal.h>
 #include <boost/program_options.hpp>
+#include <prometheus/family.h>
+#include <prometheus/gauge.h>
+#include <prometheus/exposer.h>
+#include <prometheus/registry.h>
 
 #include "remoteps_service.hpp"
+#include "remoteps_procinfo.hpp"
 #include "remoteps_version.hpp"
 
 namespace po = boost::program_options;
 
 using remoteps::RemotePsService;
+using namespace prometheus;
 
 static bool shutdown = false;
 static std::unique_ptr<RemotePsService> server;
@@ -33,6 +40,7 @@ static std::unique_ptr<RemotePsService> server;
 void signalHandler(int sig);
 void checkShutdown();
 void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port);
+void monitor_procs(const std::string ip, const uint16_t port);
 
 int main(int argc, char *argv[])
 {
@@ -43,11 +51,13 @@ int main(int argc, char *argv[])
 
 	parseCommandLine(argc, argv, ip, port);
 
+	std::thread monitor_thread(monitor_procs, ip, port+1);
 	std::thread t(checkShutdown);
 
 	server = std::unique_ptr<RemotePsService>(new RemotePsService(ip, port));
 	server->runServer();
 
+	t.detach();
 	t.detach();
 
 	return 0;
@@ -112,5 +122,28 @@ void parseCommandLine(int argc, char *argv[], std::string& ip, uint16_t& port)
 	catch (...) {
 		std::cerr << "Unknown exception" << std::endl;
 		exit(EXIT_FAILURE);
+	}
+}
+
+void monitor_procs(const std::string ip, const uint16_t port)
+{
+	remoteps::Address addr(ip, port);
+	Exposer exposer(addr.getIpPort());
+	
+	auto registry = std::make_shared<Registry>();
+
+	auto& proc_gauge_family = BuildGauge()
+		.Name("number_of_procs")
+		.Help("Number of processes")
+		.Register(*registry);
+	auto& proc_gauge = proc_gauge_family.Add({});
+
+	exposer.RegisterCollectable(registry);
+
+	remoteps::ProcInfo procinfo;
+	for (;;) {
+		procinfo.readProcs();
+		proc_gauge.Set(procinfo.getProcs().size());
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 	}
 }
